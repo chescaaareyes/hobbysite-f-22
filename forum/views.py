@@ -1,10 +1,22 @@
-from django.http import HttpResponse
 from django.shortcuts import render
 
 
 def forum_list(request):
-    return HttpResponse("Hello Forum List!")
+    ctx = {
+        "categories": [
+            "Gaming",
+            "Lifestyle",
+            "Anime",
+        ],
+    }
+    return render(request, "forum/forum-list.html", ctx)
 
 
 def forum_detail(request):
-    return HttpResponse("Hello Forum Detail!")
+    ctx = {
+        "posts": [
+            "Lorem Ipsum",
+            "Hello World",
+        ],
+    }
+    return render(request, "forum/forum-detail.html", ctx)

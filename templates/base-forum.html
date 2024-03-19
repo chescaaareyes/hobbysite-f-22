@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Forum App{% endblock %}</title>
+    {% block styles %}{% endblock %}
+  </head>
+  <body>
+    <header id="heading">{% block heading %}{% endblock %}</header>
+    <div id="content">{% block content %}{% endblock %}</div>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

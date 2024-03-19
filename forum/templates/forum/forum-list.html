@@ -1,0 +1,13 @@
+{% extends "base-forum.html" %}
+{% load static %}
+{% block title %}
+    Forum List
+{% endblock title %}
+{% block heading %}
+    <h1>Forum List</h1>
+{% endblock heading %}
+{% block content %}
+    <ul>
+        {% for category in categories %}<li>{{ category }}</li>{% endfor %}
+    </ul>
+{% endblock content %}
