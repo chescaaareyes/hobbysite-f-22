@@ -4,7 +4,6 @@ from django.urls import reverse
 from django.utils import timezone
 
 
-# Create your models here.
 class Commission(models.Model):
     title = models.CharField(max_length=255, default="this")
     desc = models.TextField(default="this")
