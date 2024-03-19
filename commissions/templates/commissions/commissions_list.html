@@ -1,0 +1,18 @@
+{% extends "commissions/base.html" %}
+{% load static %}
+{% block title %}
+  Commissions List
+{% endblock title %}
+{% block heading %}
+  Commissions
+{% endblock heading %}
+{% block content %}
+  <ul>
+    {% for commission in commissions %}
+      <li>
+        <a href={{ commission.get_absolute_url }}>{{ commission }}</a>
+        (Created on {{ commission.created_on }}) (Updated on {{ commission.updated_on }})
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock content %}
