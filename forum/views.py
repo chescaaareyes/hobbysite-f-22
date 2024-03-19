@@ -1,22 +1,19 @@
 from django.shortcuts import render
 
+from .models import Post, PostCategory
+
 
 def forum_list(request):
-    ctx = {
-        "categories": [
-            "Gaming",
-            "Lifestyle",
-            "Anime",
-        ],
-    }
+    categories = PostCategory.objects.all()
+    ctx = {"categories": categories}
     return render(request, "forum/forum-list.html", ctx)
 
 
-def forum_detail(request):
+def forum_detail(request, pk):
+    category = PostCategory.objects.get(pk=pk)
+    posts = Post.objects.filter(category__pk=pk)
     ctx = {
-        "posts": [
-            "Lorem Ipsum",
-            "Hello World",
-        ],
+        "category": category,
+        "posts": posts,
     }
     return render(request, "forum/forum-detail.html", ctx)

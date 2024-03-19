@@ -3,11 +3,42 @@
 {% block title %}
     Forum List
 {% endblock title %}
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chivo&display=swap"
+      rel="stylesheet" />
+{% block styles %}
+    <style>
+        *,
+        ::before,
+        ::after {
+            box-sizing: border-box;
+            line-height: 1.5;
+        }
+
+        * {
+            margin-left: 0.15rem;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: "Chivo", sans-serif;
+        }
+    </style>
+{% endblock styles %}
 {% block heading %}
     <h1>Forum List</h1>
 {% endblock heading %}
 {% block content %}
     <ul>
-        {% for category in categories %}<li>{{ category }}</li>{% endfor %}
+        {% for category in categories %}
+            <li>
+                <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+            </li>
+        {% endfor %}
     </ul>
 {% endblock content %}

@@ -3,11 +3,58 @@
 {% block title %}
     Forum Detail
 {% endblock title %}
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chivo&display=swap"
+      rel="stylesheet" />
+{% block styles %}
+    <style>
+        *,
+        ::before,
+        ::after {
+            box-sizing: border-box;
+            line-height: 1.5;
+        }
+
+        * {
+            margin-left: 0.15rem;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: "Chivo", sans-serif;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .h2__space {
+            margin-bottom: -0.8rem;
+        }
+
+        .p__space--small {
+            padding-bottom: 1.25rem;
+        }
+
+        .p__space--large {
+            padding-bottom: 1.5rem;
+        }
+    </style>
+{% endblock styles %}
 {% block heading %}
-    <h1>Forum Detail</h1>
+    <h1>{{ category.name }}</h1>
 {% endblock heading %}
 {% block content %}
-    <ul>
-        {% for post in posts %}<li>{{ post }}</li>{% endfor %}
-    </ul>
+    {% for post in posts %}
+        <h2 class="h2__space">{{ post.title }}</h2>
+        <p class="p__space--small">{{ post.category.name }}</p>
+        <p class="p__space--small">{{ post.entry }}</p>
+        <p class="p__space--large">{{ post.created_on }}</p>
+        {% if not forloop.last %}<hr>{% endif %}
+    {% endfor %}
 {% endblock content %}

@@ -10,7 +10,7 @@ class PostCategory(models.Model):
         return "{}".format(self.name)
 
     def get_absolute_url(self):
-        return reverse("forum:forum_list", args=[self.pk])
+        return reverse("forum:forum_detail", args=[self.pk])
 
     class Meta:
         ordering = ["name"]
