@@ -11,6 +11,6 @@ def commissions_list(request):
 
 def commission(request, pk):
     commission_title = Commission.objects.get(pk=pk)
-    comments = Comment.objects.filter(commission__pk=pk).order_by("-created_on")
+    comments = Comment.objects.filter(commission__pk=pk).order_by("created_on")
     ctx = {"commission": commission_title, "comments": comments}
     return render(request, "commissions/commission.html", ctx)
