@@ -1,3 +1,10 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 
-# Create your views here.
+
+def forum_list(request):
+    return HttpResponse("Hello Forum List!")
+
+
+def forum_detail(request):
+    return HttpResponse("Hello Forum Detail!")
