@@ -1,0 +1,11 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <h1>{{ object.title }}</h1>
+    <p>Category: {{ object.category }}</p>
+    <p>Created on: {{ object.created_on }}</p>
+    <p><i>Entry:</i></p>
+    <p>{{ object.entry }}</p>
+    <p>Updated on: {{ object.updated_on }}</p>
+<a href="/blog/articles/">< Back</a>
+{% endblock %}
