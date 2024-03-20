@@ -18,6 +18,8 @@
 
         * {
             margin-left: 0.15rem;
+            margin: 0;
+            padding: 0;
         }
 
         html {
@@ -27,18 +29,73 @@
 
         body {
             font-family: "Inter", sans-serif;
+            font-size: 1rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: unset;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #heading {
+            width: 35rem;
+            padding-bottom: 1rem;
+        }
+
+        #content {
+            margin-top: 0;
+            margin-bottom: 7rem;
+            width: 35rem;
+        }
+
+        .content__categories {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .content__categories__category {
+            box-shadow: 0 0 2px gray;
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .content__title {
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: #47d147;
+            border-radius: 4px;
+        }
+
+        .content__title p {
+            color: white;
+            font-weight: 600;
         }
     </style>
 {% endblock styles %}
 {% block heading %}
-    <h1 class=".inter--default">Forum List</h1>
+    <h1>Forum List</h1>
 {% endblock heading %}
 {% block content %}
-    <ul>
+    <div class="content__title">
+        <p>Which rabbit hole do you want to dive into?</p>
+    </div>
+    <div class="content__categories">
         {% for category in categories %}
-            <li>
+            <div class="content__categories__category">
                 <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
-            </li>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
 {% endblock content %}
