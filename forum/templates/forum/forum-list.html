@@ -1,12 +1,12 @@
-{% extends "base-forum.html" %}
+{% extends "forum/base.html" %}
 {% load static %}
 {% block title %}
-    Forum List
+    Forum
 {% endblock title %}
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Chivo&display=swap"
-      rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet">
 {% block styles %}
     <style>
         *,
@@ -26,12 +26,12 @@
         }
 
         body {
-            font-family: "Chivo", sans-serif;
+            font-family: "Inter", sans-serif;
         }
     </style>
 {% endblock styles %}
 {% block heading %}
-    <h1>Forum List</h1>
+    <h1 class=".inter--default">Forum List</h1>
 {% endblock heading %}
 {% block content %}
     <ul>
