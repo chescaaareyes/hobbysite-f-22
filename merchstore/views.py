@@ -7,7 +7,7 @@ from .models import Product, ProductType
 def products_list(request):
     products = Product.objects.all()
     ctx = {"products_list": products}
-    return render(request, "product_list.html", ctx)
+    return render(request, "merchstore/product_list.html", ctx)
 
 
 def product(request, pk):
@@ -18,4 +18,4 @@ def product(request, pk):
         "price": product.price,
         "product_type": product.product_type.name,
     }
-    return render(request, "product_detail.html", ctx)
+    return render(request, "merchstore/product_detail.html", ctx)
