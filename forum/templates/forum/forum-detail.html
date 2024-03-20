@@ -18,6 +18,8 @@
 
         * {
             margin-left: 0.15rem;
+            margin: 0;
+            padding: 0;
         }
 
         html {
@@ -30,19 +32,48 @@
             font-size: 1rem;
         }
 
-        button {
-            cursor: pointer;
+        a {
+            text-decoration: none;
+            color: unset;
         }
 
-        .h2__space {
-            margin-bottom: -0.8rem;
+        .container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        .p__space--small {
-            padding-bottom: 1.25rem;
+        #heading {
+            width: 85rem;
+            padding-bottom: 1rem;
         }
 
-        .p__space--large {
+        #heading h1{
+            margin-top: 1rem;
+        }
+
+        #content {
+            margin-bottom: 7rem;
+            width: 85rem;
+        }
+
+        .content__posts {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .content__posts__post {
+            box-shadow: 0 0 2px gray;
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .p__space {
             padding-bottom: 1.5rem;
         }
     </style>
@@ -51,11 +82,14 @@
     <h1>{{ category.name }}</h1>
 {% endblock heading %}
 {% block content %}
-    {% for post in posts %}
-        <h2 class="h2__space">{{ post.title }}</h2>
-        <p class="p__space--small">{{ post.category.name }}</p>
-        <p class="p__space--small">{{ post.entry }}</p>
-        <p class="p__space--large">{{ post.created_on }}</p>
-        {% if not forloop.last %}<hr>{% endif %}
-    {% endfor %}
+    <div class="content__posts">
+        {% for post in posts %}
+        <div class="content__posts__post">
+            <h2 class="h2__space">{{ post.title }}</h2>
+            <p class="p__space">{{ post.category.name }}</p>
+            <p class="p__space">{{ post.entry }}</p>
+            <p>Posted on {{ post.created_on }}</p>
+        </div>
+        {% endfor %}
+    </div>
 {% endblock content %}
