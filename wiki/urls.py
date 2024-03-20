@@ -3,7 +3,7 @@ from .views import articles_list_view,article_detail
 
 urlpatterns = [
     path('wiki/articles', articles_list_view, name ='article_list' ),
-    path('wiki/article/<int:articles_detail>', article_detail, name='article_detail'),
+    path('wiki/article/<int:pk>', article_detail, name='article_detail'),
 
 ]
 
