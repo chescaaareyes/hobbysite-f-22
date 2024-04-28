@@ -23,7 +23,7 @@ class Post(models.Model):
     )
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-    update_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["-created_on"]
