@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>
-            {% block title %}Blog{% endblock %}
-        </title>
-        {% block styles %}
-        {% endblock %}
-    </head>
-    <body>
-        <header>
-            <h1>
-                {% block heading %}
-                {% endblock heading %}
-            <h1>
-            </header>
-        <main>
-            {% block content %}
-            {% endblock %}
-        </main>
-    </body>
+<html lang="en">
+  <head>
+    <title>
+      {% block title %}
+        Blog
+      {% endblock title %}
+    </title>
+    {% block styles %}
+    {% endblock styles %}
+  </head>
+  <body>
+    <header>
+      <h1>
+        {% block heading %}
+        {% endblock heading %}
+      </h1>
+    </header>
+    <main>
+      {% block content %}
+      {% endblock content %}
+    </main>
+  </body>
 </html>
