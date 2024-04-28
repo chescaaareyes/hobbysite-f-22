@@ -3,10 +3,10 @@ from django.shortcuts import render
 from .models import Article
 
 
-def articles_list_view(request):
+def article_list(request):
     articles = Article.objects.order_by("-created_on")
     context = {"articles": articles}
-    return render(request, "wiki/articles.html", context)
+    return render(request, "wiki/article_list.html", context)
 
 
 def article_detail(request, pk):
