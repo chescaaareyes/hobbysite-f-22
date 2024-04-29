@@ -10,7 +10,7 @@ def products_list(request):
     return render(request, "merchstore/product_list.html", ctx)
 
 
-def product(request, pk):
+def product_detail(request, pk):
     product = Product.objects.get(pk=pk)
     ctx = {
         "name": product.name,

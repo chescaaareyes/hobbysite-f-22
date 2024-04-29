@@ -6,7 +6,7 @@ from .models import Post, PostCategory
 def forum_list(request):
     categories = PostCategory.objects.all()
     ctx = {"categories": categories}
-    return render(request, "forum/forum-list.html", ctx)
+    return render(request, "forum/forum_list.html", ctx)
 
 
 def forum_detail(request, pk):
@@ -16,4 +16,4 @@ def forum_detail(request, pk):
         "category": category,
         "posts": posts,
     }
-    return render(request, "forum/forum-detail.html", ctx)
+    return render(request, "forum/forum_detail.html", ctx)

@@ -1,13 +1,14 @@
-{% extends "wiki/base.html" %} {% block content %}
-
-<h2>{{ title }}</h2>
-
-<p>
-  <strong>Category:</strong> {{ category }} <br />
-  <strong>Created on:</strong> {{ created_on }} <br />
-  <strong>Updated on:</strong> {{ updated_on }} <br />
-</p>
-
-<strong>Entry:</strong>
-<p>{{ entry }}</p>
-{% endblock %}
+{% extends "wiki/base.html" %}
+{% block content %}
+  <h2>{{ title }}</h2>
+  <p>
+    <strong>Category:</strong> {{ category }}
+    <br />
+    <strong>Created on:</strong> {{ created_on }}
+    <br />
+    <strong>Updated on:</strong> {{ updated_on }}
+    <br />
+  </p>
+  <strong>Entry:</strong>
+  <p>{{ entry }}</p>
+{% endblock content %}

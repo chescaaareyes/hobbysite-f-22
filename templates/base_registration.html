@@ -3,22 +3,21 @@
   <head>
     <title>
       {% block title %}
-        Blog
       {% endblock title %}
     </title>
     {% block styles %}
     {% endblock styles %}
   </head>
   <body>
-    <header>
-      <h1>
-        {% block heading %}
-        {% endblock heading %}
-      </h1>
-    </header>
-    <main>
+    <h1>
+      {% block heading %}
+      {% endblock heading %}
+    </h1>
+    <div>
       {% block content %}
       {% endblock content %}
-    </main>
+    </div>
+    {% block scripts %}
+    {% endblock scripts %}
   </body>
 </html>
