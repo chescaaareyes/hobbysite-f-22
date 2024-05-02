@@ -4,7 +4,7 @@
   Commission
 {% endblock title %}
 {% block heading %}
-  <a href="/commissions/list">{{ commission }}</a>
+  <a href="{% url "commissions:commission_list" %}">{{ commission }}</a>
 {% endblock heading %}
 {% block content %}
   <p>Description: {{ commission.description }}</p>
