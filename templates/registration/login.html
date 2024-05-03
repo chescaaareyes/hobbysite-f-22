@@ -1,4 +1,4 @@
-{% extends "base_registration.html" %}
+{% extends "base_generic.html" %}
 {% block title %}
   Login
 {% endblock title %}
@@ -11,4 +11,6 @@
     {{ form.as_p }}
     <button type="submit">Login</button>
   </form>
+  <a href="{% url "password_reset" %}">Forgot password?</a>
+  <a href="{% url "user_management:register" %}">Don't have an account? Register</a>
 {% endblock content %}

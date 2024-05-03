@@ -1,13 +1,15 @@
 {% extends "base_generic.html" %}
-{% load static %}
 {% block title %}
-  Password Reset
+  Logout
 {% endblock title %}
+{% block heading %}
+  Logout
+{% endblock heading %}
 {% block content %}
-  <p>Please input your email address. An email with instructions will be sent to you.</p>
+  <p>Are you sure you want to logout?</p>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Reset</button>
+    <button type="submit">Logout</button>
   </form>
 {% endblock content %}
