@@ -1,16 +1,15 @@
 {% extends "base_generic.html" %}
 {% block title %}
-  Login
+  Logout
 {% endblock title %}
 {% block heading %}
-  Login
+  Logout
 {% endblock heading %}
 {% block content %}
+  <p>Are you sure you want to logout?</p>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Login</button>
+    <button type="submit">Logout</button>
   </form>
-  <a href="{% url "password_reset" %}">Forgot password?</a>
-  <a href="{% url "user_management:register" %}">Don't have an account? Register</a>
 {% endblock content %}
