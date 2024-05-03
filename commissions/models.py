@@ -25,16 +25,21 @@ class Commission(models.Model):
         ordering = ["created_on"]
 
 
-class Comment(models.Model):
+class Job(models.Model):
     commission = models.ForeignKey(
-        Commission, on_delete=models.CASCADE, related_name="commissions"
+        Commission, on_delete=models.CASCADE, related_name="job"
     )
-    entry = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
+    role = models.CharField(max_length=255)
+    manpower = models.PositiveIntegerField()
+    STATUS_CHOICES = {
+        "open": "Open",
+        "full": "Full",
+    }
+    status = models.CharField(max_length=4, choices=STATUS_CHOICES, default="open")
+    applied_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.entry
 
     class Meta:
-        ordering = ["-created_on"]
+        ordering = ["-status", "-manpower", "role"]
