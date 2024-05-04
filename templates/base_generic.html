@@ -13,11 +13,21 @@
   <body>
     {% block nav %}
       <nav>
-        <a href="{% url "merchstore:product_list" %}">Merchandise Store</a>
-        <a href="{% url "wiki:article_list" %}">Wiki</a>
-        <a href="{% url "blog:article_list" %}">Blog</a>
-        <a href="{% url "forum:forum_list" %}">Forum</a>
-        <a href="{% url "commissions:commission_list" %}">Commission</a>
+        <a href="{% url 'merchstore:product_list' %}">Merchandise Store</a>
+        <a href="{% url 'wiki:article_list' %}">Wiki</a>
+        <a href="{% url 'blog:article_list' %}">Blog</a>
+        <a href="{% url 'forum:forum_list' %}">Forum</a>
+        <a href="{% url 'commissions:commission_list' %}">Commission</a>
+        <div>
+          {% if user.is_authenticated %}
+          <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+          </form>
+          {% else %}
+          <a href="{% url 'login' %}">Login</a>
+          {% endif %}
+        </div>
       </nav>
     {% endblock nav %}
     <h1>
