@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.db.models import Case, Value, When
 
 
 class Commission(models.Model):
@@ -42,3 +43,19 @@ class Job(models.Model):
     
     class Meta:
         ordering = ["-status", "-manpower", "role"]
+
+
+class JobApplication(models.Model):
+    job = models.ForeignKey(
+        Job, on_delete=models.CASCADE, related_name="job_application"
+    )
+    STATUS_CHOICES = {
+        "Pending": "Pending",
+        "Accepted": "Accepted",
+        "Rejected": "Rejected"
+    }
+    status = models.CharField(max_length=8, choices=STATUS_CHOICES, default="Pending")
+    applied_on = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ["status", "-applied_on"]
