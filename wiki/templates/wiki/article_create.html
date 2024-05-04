@@ -1,0 +1,14 @@
+{% extends "wiki/base_wiki.html" %}
+
+{% block content %}
+<html>
+    <head>
+    </head>
+    <body>
+        <form method="POST">
+            {% csrf_token %}
+            {{ articleform.as_div }}
+            <button type="submit">Submit</button>
+    </body>
+</html>
+{% endblock %}
