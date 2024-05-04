@@ -6,12 +6,12 @@ class Commission(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     STATUS_CHOICES = {
-        "open": "Open",
-        "full": "Full",
-        "completed": "Completed",
-        "discontinued": "Discontinued",
+        "Open": "Open",
+        "Full": "Full",
+        "Completed": "Completed",
+        "Discontinued": "Discontinued",
     }
-    status = models.CharField(max_length=12, choices=STATUS_CHOICES, default="open")
+    status = models.CharField(max_length=14, choices=STATUS_CHOICES, default="Open")
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -32,14 +32,13 @@ class Job(models.Model):
     role = models.CharField(max_length=255)
     manpower = models.PositiveIntegerField()
     STATUS_CHOICES = {
-        "open": "Open",
-        "full": "Full",
+        "Open": "Open",
+        "Full": "Full",
     }
-    status = models.CharField(max_length=4, choices=STATUS_CHOICES, default="open")
-    applied_on = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=6, choices=STATUS_CHOICES, default="Open")
 
     def __str__(self):
-        return self.entry
-
+        return self.role
+    
     class Meta:
         ordering = ["-status", "-manpower", "role"]
