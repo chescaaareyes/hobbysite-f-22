@@ -46,7 +46,7 @@ def article_detail(request, pk):
 def article_create(request):
     form=ArticleForm
     if request.method == 'POST':
-        form = ArticleForm(request.POST)
+        form = ArticleForm(request.POST, request.FILES)
         if form.is_valid():
             article = form.save(commit=False)
             article.author = request.user
@@ -54,14 +54,15 @@ def article_create(request):
             return redirect("wiki:article_detail", pk=article.pk)
         
     ctx = {"articleform":form}
-    return render(request, 'wiki/article_create.html',ctx)
+    return render(request, 'wiki/article_update.html',ctx)
 
 @login_required
 def article_update(request, pk):
     article = get_object_or_404(Article, id=pk)
     if request.method == 'POST':
-        form = ArticleForm(request.POST, instance=article)
+        form = ArticleForm(request.POST, request.FILES,instance=article)
         if form.is_valid():
+            article = form.save(commit=False)
             form.save()
             return redirect("wiki:article_detail", pk=article.pk)
     else:

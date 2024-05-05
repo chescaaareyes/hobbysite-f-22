@@ -30,6 +30,7 @@ class Article(models.Model):
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True, null = True)
     updated_on = models.DateTimeField(auto_now=True, null = True)
+    image = models.ImageField(upload_to='article_images/', null=True, blank=True)
 
     class Meta:
         ordering = ['-created_on']
