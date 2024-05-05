@@ -1,17 +1,17 @@
 from django.shortcuts import render
 
-from .models import Post, PostCategory
+from .models import Thread, ThreadCategory, Comment
 
 
-def forum_list(request):
-    categories = PostCategory.objects.all()
+def thread_list(request):
+    categories = ThreadCategory.objects.all()
     ctx = {"categories": categories}
     return render(request, "forum/forum_list.html", ctx)
 
 
 def forum_detail(request, pk):
-    category = PostCategory.objects.get(pk=pk)
-    posts = Post.objects.filter(category__pk=pk)
+    category = ThreadCategory.objects.get(pk=pk)
+    posts = Thread.objects.filter(category__pk=pk)
     ctx = {
         "category": category,
         "posts": posts,
