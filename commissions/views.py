@@ -5,6 +5,8 @@ from django.shortcuts import redirect, render
 from .forms import CommissionForm
 from .models import Commission, Job
 
+import datetime
+
 
 def commission_list(request):
     commissions = Commission.objects.annotate(
@@ -54,12 +56,16 @@ def commission_create(request):
         if form.is_valid():
             new_commission = Commission()
             new_commission.title = form.cleaned_data.get("title")
-            new_commission.author = request.user
             new_commission.description = form.cleaned_data.get("description")
             new_commission.status = form.cleaned_data.get("status")
-            new_commission.created_on = form.cleaned_data.get("created_on")
-            new_commission.updated_on = form.cleaned_data.get("updated_on")
             new_commission.save()
             return redirect("commissions:commission_detail", pk=new_commission.pk)
-    ctx = {"form": form}
+    new_created_on = datetime.datetime.now()
+    new_updated_on = datetime.datetime.now()
+    ctx = {
+        "form": form,
+        "created_on": new_created_on,
+        "updated_on": new_updated_on,
+        "author": request.user,
+    }
     return render(request, "commissions/commission_create.html", ctx)

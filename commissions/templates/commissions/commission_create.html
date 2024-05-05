@@ -7,6 +7,9 @@
   Create a Commission
 {% endblock heading %}
 {% block content %}
+  <p>Author: {{ author }}</p>
+  <p>Created on: {{ created_on }}</p>
+  <p>Updated on: {{ updated_on }}</p>
   <form method="post">
     {% csrf_token %}
     {{ form }}
