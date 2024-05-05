@@ -1,6 +1,8 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Case, Sum, Value, When
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
+from .forms import CommissionForm
 from .models import Commission, Job
 
 
@@ -42,3 +44,22 @@ def commission_detail(request, pk):
     }
 
     return render(request, "commissions/commission_detail.html", ctx)
+
+
+@login_required
+def commission_create(request):
+    form = CommissionForm()
+    if request.method == "POST":
+        form = CommissionForm(request.POST)
+        if form.is_valid():
+            new_commission = Commission()
+            new_commission.title = form.cleaned_data.get("title")
+            new_commission.author = request.user
+            new_commission.description = form.cleaned_data.get("description")
+            new_commission.status = form.cleaned_data.get("status")
+            new_commission.created_on = form.cleaned_data.get("created_on")
+            new_commission.updated_on = form.cleaned_data.get("updated_on")
+            new_commission.save()
+            return redirect("commissions:commission_detail", pk=new_commission.pk)
+    ctx = {"form": form}
+    return render(request, "commissions/commission_create.html", ctx)

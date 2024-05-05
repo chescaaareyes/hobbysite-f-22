@@ -1,0 +1,15 @@
+{% extends "commissions/base_commissions.html" %}
+{% load static %}
+{% block title %}
+  Create a Commission
+{% endblock title %}
+{% block heading %}
+  Create a Commission
+{% endblock heading %}
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+  </form>
+{% endblock content %}

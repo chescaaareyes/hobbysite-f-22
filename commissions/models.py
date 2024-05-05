@@ -7,7 +7,9 @@ from user_management.models import Profile
 
 class Commission(models.Model):
     title = models.CharField(max_length=255)
-    author = models.CharField(max_length=63, default="You")
+    author = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name="commission", default=1
+    )
     description = models.TextField()
     STATUS_CHOICES = {
         "Open": "Open",
