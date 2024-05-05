@@ -15,6 +15,10 @@
   <br>
   <p>Created on: {{ commission.created_on }}</p>
   <p>Updated on: {{ commission.updated_on }}</p>
+  {% if user.pk == commission.author.pk %}
+    <a href={% url "commissions:commission_update" commission.pk %}>Update Commission</a>
+  {% endif %}
+  <br>
   <br>
   <p>Jobs:</p>
   <ul>
