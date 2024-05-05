@@ -1,11 +1,11 @@
+import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.db.models import Case, Sum, Value, When
 from django.shortcuts import redirect, render
 
 from .forms import CommissionForm
 from .models import Commission, Job
-
-import datetime
 
 
 def commission_list(request):
@@ -69,3 +69,23 @@ def commission_create(request):
         "author": request.user,
     }
     return render(request, "commissions/commission_create.html", ctx)
+
+
+@login_required
+def commission_update(request, pk):
+    commission = Commission.objects.get(pk=pk)
+    form = CommissionForm()
+    if request.method == "POST":
+        form = CommissionForm(request.POST)
+        if form.is_valid():
+            commission.title = form.cleaned_data.get("title")
+            commission.description = form.cleaned_data.get("description")
+            commission.status = form.cleaned_data.get("status")
+            commission.updated_on = datetime.datetime.now()
+            commission.save()
+            return redirect("commissions:commission_detail", pk=commission.pk)
+    new_updated_on = datetime.datetime.now()
+    ctx = {
+        "form": form, "commission": commission, "updated_on": new_updated_on
+    }
+    return render(request, "commissions/commission_update.html", ctx)
