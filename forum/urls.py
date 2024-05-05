@@ -1,12 +1,12 @@
 from django.urls import path
 
-from .views import forum_detail, forum_list, forum_create, forum_update
+from .views import thread_detail, thread_list, thread_create, thread_update
 
 urlpatterns = [
-    path("threads/", forum_list, name="forum_list"),
-    path("thread/<int:pk>", forum_detail, name="forum_detail"),
-    path("thread/<int:pk>/add", forum_create, name="forum_create"),
-    path("thread/<int:pk>/edit", forum_update, name="forum_update"),
+    path("threads/", thread_list, name="thread_list"),
+    path("thread/<int:pk>", thread_detail, name="thread_detail"),
+    path("thread/<int:pk>/add", thread_create, name="thread_create"),
+    path("thread/<int:pk>/edit", thread_update, name="thread_update"),
 ]
 
 app_name = "forum"
