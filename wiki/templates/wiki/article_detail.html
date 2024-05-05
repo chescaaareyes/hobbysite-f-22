@@ -1,6 +1,9 @@
 {% extends "wiki/base_wiki.html" %}
 {% block content %}
   <h2>{{ title }}</h2>
+  {% if article.image %}
+  <img src="{{ article.image.url }}" alt="Article Image">
+  {% endif %}
   <p>
     {% if user.is_authenticated and user == article.author %}
     <a href="{% url 'wiki:article_update' pk=article.pk %}">Edit Article</a>
