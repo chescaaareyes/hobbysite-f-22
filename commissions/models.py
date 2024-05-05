@@ -6,6 +6,7 @@ from django.db.models import Case, Value, When
 class Commission(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
+    author = models.CharField(max_length=63)
     STATUS_CHOICES = {
         "Open": "Open",
         "Full": "Full",
