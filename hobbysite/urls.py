@@ -17,6 +17,8 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("commissions/", include("commissions.urls", namespace="commissions")),
@@ -27,4 +29,4 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),
     path("", include("user_management.urls", namespace="user_management")),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
