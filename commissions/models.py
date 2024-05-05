@@ -2,6 +2,8 @@ from django.db import models
 from django.db.models import Case, Value, When
 from django.urls import reverse
 
+from user_management.models import Profile
+
 
 class Commission(models.Model):
     title = models.CharField(max_length=255)
@@ -56,6 +58,9 @@ class Job(models.Model):
 class JobApplication(models.Model):
     job = models.ForeignKey(
         Job, on_delete=models.CASCADE, related_name="job_application"
+    )
+    applicant = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name="job_application", null=True
     )
     STATUS_CHOICES = {
         "Pending": "Pending",
