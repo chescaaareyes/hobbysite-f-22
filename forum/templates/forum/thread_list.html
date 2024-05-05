@@ -4,11 +4,18 @@
 {% endblock heading %}
 {% block content %}
   <div class="content__categories">
+    <h2>Your Threads</h2>
+    {% for thread in threads %}
+      {% if thread.author.user == user %}
+        <a href={{ thread.category.get_absolute_url }}>{{ thread.title }}</a>
+      {% endif %}
+    {% endfor %}
+    <h2>Other Threads</h2>
     {% for category in categories %}
-      <h2>{{ category.name }}</h2>
-      <h3>{{ category.description }}</h3>
+      <h3>{{ category.name }}</h3>
+      <h4>{{ category.description }}</h4>
       {% for thread in threads %}
-        {% if thread.category.name == category.name %}
+        {% if thread.category.name == category.name and thread.author.user != user %}
           <a href={{ thread.category.get_absolute_url }}>{{ thread.title }}</a>
           <br>
         {% endif %}
