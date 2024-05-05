@@ -1,12 +1,12 @@
 from django.db import models
-from django.urls import reverse
 from django.db.models import Case, Value, When
+from django.urls import reverse
 
 
 class Commission(models.Model):
     title = models.CharField(max_length=255)
+    author = models.CharField(max_length=63, default="You")
     description = models.TextField()
-    author = models.CharField(max_length=63)
     STATUS_CHOICES = {
         "Open": "Open",
         "Full": "Full",
@@ -41,9 +41,16 @@ class Job(models.Model):
 
     def __str__(self):
         return self.role
-    
+
     class Meta:
-        ordering = ["-status", "-manpower", "role"]
+        ordering = [
+            Case(
+                When(status="Open", then=Value(0)),
+                When(status="Full", then=Value(1)),
+            ),
+            "-manpower",
+            "role",
+        ]
 
 
 class JobApplication(models.Model):
@@ -53,10 +60,17 @@ class JobApplication(models.Model):
     STATUS_CHOICES = {
         "Pending": "Pending",
         "Accepted": "Accepted",
-        "Rejected": "Rejected"
+        "Rejected": "Rejected",
     }
     status = models.CharField(max_length=8, choices=STATUS_CHOICES, default="Pending")
     applied_on = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
-        ordering = ["status", "-applied_on"]
+        ordering = [
+            Case(
+                When(status="Pending", then=Value(0)),
+                When(status="Accepted", then=Value(1)),
+                When(status="Rejected", then=Value(2)),
+            ),
+            "-applied_on",
+        ]

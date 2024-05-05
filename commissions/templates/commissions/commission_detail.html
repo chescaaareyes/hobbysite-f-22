@@ -7,18 +7,21 @@
   <a href="{% url "commissions:commission_list" %}">{{ commission }}</a>
 {% endblock heading %}
 {% block content %}
+  <p>From {{ commission.author }}</p>
   <p>Description: {{ commission.description }}</p>
-  <p>People Required: {{ commission.people_required }}</p>
+  <p>Total Manpower Required: {{ manpower_required }}</p>
+  <p>Total Manpower Open: {{ manpower_open }}</p>
+  <p>Status: {{ commission.get_status_display }}</p>
   <br>
   <p>Created on: {{ commission.created_on }}</p>
   <p>Updated on: {{ commission.updated_on }}</p>
   <br>
-  <p>Comments:</p>
+  <p>Jobs:</p>
   <ul>
-    {% for comment in comments %}
+    {% for job in jobs %}
       <li>
-        <p>{{ comment.entry }}</p>
-        <p>(Created on {{ comment.created_on }}) (Updated on {{ comment.updated_on }})</p>
+        <p>{{ job.role }} ({{ job.status }})</p>
+        <p>(Manpower Required: {{ job.manpower }})</p>
       </li>
     {% endfor %}
   </ul>
