@@ -3,14 +3,16 @@
   Thread List
 {% endblock heading %}
 {% block content %}
-  <div class="content__title">
-    <p>Which rabbit hole do you want to dive into?</p>
-  </div>
   <div class="content__categories">
     {% for category in categories %}
-      <div class="content__categories__category">
-        <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
-      </div>
+      <h2>{{ category.name }}</h2>
+      <h3>{{ category.description }}</h3>
+      {% for thread in threads %}
+        {% if thread.category.name == category.name %}
+          <a href={{ thread.category.get_absolute_url }}>{{ thread.title }}</a>
+          <br>
+        {% endif %}
+      {% endfor %}
     {% endfor %}
   </div>
 {% endblock content %}

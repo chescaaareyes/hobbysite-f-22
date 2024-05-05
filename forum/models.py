@@ -24,7 +24,7 @@ class Thread(models.Model):
         Profile, on_delete=models.SET_NULL, related_name="thread_author", null=True
     )
     category = models.ForeignKey(
-        ThreadCategory, on_delete=models.SET_NULL, related_name="categories", null=True
+        ThreadCategory, on_delete=models.SET_NULL, related_name="category", null=True
     )
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
@@ -38,7 +38,7 @@ class Comment(models.Model):
     author = models.ForeignKey(
         Profile, on_delete=models.SET_NULL, related_name="comment_author", null=True
     )
-    thread = models.ForeignKey(Thread, on_delete=models.CASCADE, related_name="threads")
+    thread = models.ForeignKey(Thread, on_delete=models.CASCADE, related_name="thread")
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
