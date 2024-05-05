@@ -4,9 +4,10 @@ from. models import Article, Comment
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
-        fields= '__all__'
+        fields= ['title', 'category', 'entry']
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = ['entry']
+        labels = {'entry': ''}

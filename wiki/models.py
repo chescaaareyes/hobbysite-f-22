@@ -14,6 +14,12 @@ class ArticleCategory(models.Model):
         return self.name
 
 class Article(models.Model):
+    author = models.ForeignKey(
+        User, 
+        on_delete=models.SET_NULL,
+        null = True,
+        related_name = "author"
+        )
     title = models.CharField(max_length=255)
     category = models.ForeignKey(
         "ArticleCategory", 

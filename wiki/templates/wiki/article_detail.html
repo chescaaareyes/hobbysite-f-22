@@ -2,6 +2,12 @@
 {% block content %}
   <h2>{{ title }}</h2>
   <p>
+    {% if user.is_authenticated and user == article.author %}
+    <a href="{% url 'wiki:article_update' pk=article.pk %}">Edit Article</a>
+    {% endif %}
+    <br/>
+    <strong>Created by:</strong> {{ article.author }}
+    <br />
     <strong>Category:</strong> {{ category }}
     <br />
     <strong>Created on:</strong> {{ created_on }}
@@ -22,16 +28,24 @@
   {% else %}
     <p>Please <a href="{% url 'login' %}">login</a> to add a comment.</p>
   {% endif %}
-
+  
   <h3>Comments:</h3>
   {% for comment in comments %}
     <p>
-      <strong>{{ comment.author.username }}</strong> said on {{ comment.created_on }}:
+      <strong>{{ comment.author.username }}</strong>: {{ comment.created_on }}:
       <br>
       {{ comment.entry }}
     </p>
   {% empty %}
     <p>No comments yet.</p>
   {% endfor %}
+
+  <h3>Read More From {{ article.category }}:</h3>
+  {% for related_article in related_articles %}
+    <a href="{% url 'wiki:article_detail' pk=related_article.pk %}"> {{ related_article.title }}</a>
+    <br />
+  {% endfor %}
+<br/>
+  <strong><a href="{% url 'wiki:article_list' %}">Return</a></strong>
 
 {% endblock content %}
