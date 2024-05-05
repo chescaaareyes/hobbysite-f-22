@@ -1,5 +1,7 @@
 {% extends "merchstore/base_merchstore.html" %}
 {% block content %}
+{{username}}
+
   <h2>{{ name }}</h2>
   <p>
     <b> Product Type: </b> {{ product_type }}
@@ -8,4 +10,13 @@
   </p>
   <b>Description:</b>
   <p>{{ description }}</p>
-{% endblock content %}
+
+
+  {% if username != owner %}
+  <form method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <button>BUY NOW</button>
+  </form>
+  {% endif %}
+{% endblock %}
