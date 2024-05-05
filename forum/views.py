@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from .models import Thread, ThreadCategory, Comment
+from .models import Comment, Thread, ThreadCategory
 
 
 def thread_list(request):
@@ -24,6 +24,7 @@ def thread_detail(request, pk):
 @login_required
 def thread_create(request, pk):
     return HttpResponse("Hello World")
+
 
 @login_required
 def thread_update(request, pk):
