@@ -21,7 +21,7 @@ class ThreadCategory(models.Model):
 class Thread(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(
-        Profile, on_delete=models.SET_NULL, related_name="authors", null=True
+        Profile, on_delete=models.SET_NULL, related_name="thread_author", null=True
     )
     category = models.ForeignKey(
         ThreadCategory, on_delete=models.SET_NULL, related_name="categories", null=True
@@ -36,7 +36,7 @@ class Thread(models.Model):
 
 class Comment(models.Model):
     author = models.ForeignKey(
-        Profile, on_delete=models.SET_NULL, related_name="comments", null=True
+        Profile, on_delete=models.SET_NULL, related_name="comment_author", null=True
     )
     thread = models.ForeignKey(Thread, on_delete=models.CASCADE, related_name="threads")
     entry = models.TextField()
