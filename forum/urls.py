@@ -1,10 +1,10 @@
 from django.urls import path
 
-from .views import forum_detail, forum_list
+from .views import thread_detail, thread_list
 
 urlpatterns = [
-    path("threads/", forum_list, name="forum_list"),
-    path("thread/<int:pk>", forum_detail, name="forum_detail"),
+    path("threads/", thread_list, name="thread_list"),
+    path("thread/<int:pk>", thread_detail, name="thread_detail"),
 ]
 
 app_name = "forum"
