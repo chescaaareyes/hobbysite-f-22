@@ -81,7 +81,6 @@ def commission_create(request):
     commission_form = CommissionForm(initial={"author": author})
     job_form = JobFormSet(queryset=Job.objects.none())
     if request.method == "POST":
-        total_forms = request.POST.get("total-forms")
         commission_form = CommissionForm(request.POST)
         job_form = JobFormSet(request.POST)
         if commission_form.is_valid() and job_form.is_valid():
