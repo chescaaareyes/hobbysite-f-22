@@ -5,7 +5,7 @@ from django.db.models import Case, Sum, Value, When
 from django.shortcuts import redirect, render
 
 from .forms import CommissionForm, JobApplicationForm
-from .models import Commission, Job
+from .models import Commission, Job, JobApplication
 from user_management.models import Profile
 
 
@@ -47,15 +47,23 @@ def commission_detail(request, pk):
 
     manpower_open = manpower_required - manpower_full
     
-    job_form = JobApplicationForm()
-    if request.method == "POST":
-        job_form = JobApplicationForm(request.POST)
-        if job_form.is_valid():
-            new_job = Job()
-            new_job.job = job_form.cleaned_data.get("job")
-            new_job.applicant = job_form.cleaned_data.get("applicant")
-            new_job.status = "Pending"
-            return redirect("commissions:commission_detail", pk=pk)
+    job_form = None
+    
+    if request.user.is_authenticated:
+        job_form = JobApplicationForm(initial={"job": Job.objects.get(pk=1), "applicant": Profile.objects.get(pk=request.user.pk), "status": "Pending"})
+        if request.method == "POST":
+            job_form = JobApplicationForm(initial={"job": Job.objects.get(pk=1), "applicant": Profile.objects.get(pk=request.user.pk), "status": "Pending"})
+            job_form = JobApplicationForm(request.POST)
+            if job_form.is_valid():
+                new_application = JobApplication()
+                job_pk = int(request.POST.get("job_pk"))
+                print(job_pk)
+                print(Job.objects.get(pk=job_pk))
+                new_application.job = Job.objects.get(pk=job_pk)
+                new_application.applicant = Profile.objects.get(pk=request.user.pk)
+                new_application.status = "Pending"
+                new_application.save()
+                return redirect("commissions:commission_detail", pk=pk)
 
     ctx = {
         "commission": commission,

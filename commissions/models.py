@@ -26,6 +26,9 @@ class Commission(models.Model):
 
     def get_absolute_url(self):
         return reverse("commissions:commission_detail", args=[self.pk])
+    
+    def get_jobs(self):
+        return Job.objects.filter(job__pk=self.pk)
 
     class Meta:
         ordering = ["created_on"]
@@ -45,6 +48,12 @@ class Job(models.Model):
 
     def __str__(self):
         return self.role
+    
+    def get_job_applications(self):
+        return JobApplication.objects.filter(job__pk=self.pk)
+
+    def get_number_of_accepted_applications(self):
+        return JobApplication.objects.filter(job__pk=self.pk).filter(status="Accepted").count()
 
     class Meta:
         ordering = [
@@ -59,7 +68,7 @@ class Job(models.Model):
 
 class JobApplication(models.Model):
     job = models.ForeignKey(
-        Job, on_delete=models.CASCADE, related_name="job_application"
+        Job, on_delete=models.CASCADE, related_name="job_application", editable=False
     )
     applicant = models.ForeignKey(
         Profile, on_delete=models.CASCADE, related_name="job_application"
@@ -71,6 +80,9 @@ class JobApplication(models.Model):
     }
     status = models.CharField(max_length=8, choices=STATUS_CHOICES, default="Pending")
     applied_on = models.DateTimeField(auto_now_add=True)
+    
+    def get_commissions(self):
+        return Commission
 
     class Meta:
         ordering = [
