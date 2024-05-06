@@ -1,12 +1,11 @@
 import datetime
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from user_management.models import Profile
 
-from .forms import ThreadForm
+from .forms import CommentForm, ThreadForm
 from .models import Comment, Thread, ThreadCategory
 
 
@@ -21,10 +20,22 @@ def thread_list(request):
 
 
 def thread_detail(request, pk):
+    author = Profile.objects.get(pk=request.user.pk)
     threads = Thread.objects.all()
     thread = Thread.objects.get(pk=pk)
-    comments = Comment.objects.filter(thread__pk=pk)
+    comments = Comment.objects.all()
+    form = CommentForm()
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = Comment()
+            new_comment.author = author
+            new_comment.thread = thread
+            new_comment.entry = form.cleaned_data.get("entry")
+            new_comment.save()
+            return redirect("forum:thread_detail", pk=pk)
     ctx = {
+        "form": form,
         "threads": threads,
         "thread": thread,
         "comments": comments,
@@ -35,11 +46,7 @@ def thread_detail(request, pk):
 @login_required
 def thread_create(request):
     author = Profile.objects.get(pk=request.user.pk)
-    form = ThreadForm(
-        initial={
-            "author": author,
-        }
-    )
+    form = ThreadForm()
     if request.method == "POST":
         form = ThreadForm(request.POST)
         if form.is_valid():
