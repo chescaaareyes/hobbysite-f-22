@@ -30,6 +30,7 @@ class Article(models.Model):
         related_name="articleCategory",
     )
     entry = models.TextField()
+    headerImage = models.ImageField(upload_to='header_images/', blank=True, null=True)
     createdOn = models.DateTimeField(auto_created=True)
     updatedOn = models.DateTimeField(auto_now=True)
     

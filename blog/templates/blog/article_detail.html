@@ -3,8 +3,14 @@
 {% block content %}
 
   <h1>{{ article.title }}</h1>
+
   <p>Category: {{ article.category }}</p>
   <p>Created on: {{ article.createdOn }}</p>
+
+  {% if article.headerImage %}
+    <img src="{{ article.headerImage.url }}" alt="{{ article.title }}">
+  {% endif %}
+  
   <p>
     <i>Entry:</i>
   </p>
