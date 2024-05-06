@@ -23,12 +23,12 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
     STOCK_CHOICES = {
-        "available" : "Available",
-        "on sale" : "On Sale",
-        "out of stock" : "Out of Stock",
+        "Available" : "Available",
+        "On sale" : "On Sale",
+        "Out of Stock" : "Out of Stock",
     }
     stock = models.IntegerField(default=0)
-    status = models.CharField(max_length=12, choices=STOCK_CHOICES, default=STOCK_CHOICES["available"])
+    status = models.CharField(max_length=12, choices=STOCK_CHOICES, default=STOCK_CHOICES["Available"])
 
     def __str__(self):
         return self.name
@@ -46,15 +46,15 @@ class Transaction(models.Model):
     amount = models.IntegerField()
     
     STATUS_CHOICES = {
-        "on cart" : "On Cart",
-        "to pay" : "To Pay",
-        "to shop" : "To Shop",
-        "to receive" : "To Receive",
-        "delivered" : "Delivered",
+        "On Cart" : "On Cart",
+        "To Pay" : "To Pay",
+        "To Shop" : "To Shop",
+        "To Receive" : "To Receive",
+        "Delivered" : "Delivered",
     }
 
     status = models.CharField(max_length=10, choices=STATUS_CHOICES)
-    created_on = models.DateTimeField(auto_created=True)
+    created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.amount} {self.product.name} bought by {self.buyer.display_name}'
