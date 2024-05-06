@@ -8,11 +8,11 @@ def articleList(request):
     articles = Article.objects.order_by("-createdOn")
     if request.user.is_authenticated:
         userArticles = articles.filter(author=request.user)
-        allArticles = articles.exclude(author=request.user)
-        context = {'userArticles': userArticles, 'allArticles': allArticles}
+        otherArticles = articles.exclude(author=request.user)
+        context = {'userArticles': userArticles, 'otherArticles': otherArticles}
     else:
-        allArticles = articles.all()
-        context = {'allArticles': allArticles}
+        otherArticles = articles.all()
+        context = {'otherArticles': otherArticles}
     return render(request, 'blog/article_list.html', context)
 
 # Article Detail View
