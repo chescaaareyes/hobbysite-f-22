@@ -11,7 +11,7 @@
       <h2>Your Threads</h2>
       {% for thread in threads %}
         {% if thread.author.user == user %}
-          <a href={{ thread.category.get_absolute_url }}>{{ thread.title }}</a>
+          <a href={% url "forum:thread_detail" thread.pk %}>{{ thread.title }}</a>
           <br>
         {% endif %}
       {% endfor %}
@@ -23,7 +23,7 @@
         <h4>{{ category.description }}</h4>
         {% for thread in threads %}
           {% if thread.category.name == category.name and thread.author.user != user %}
-            <a href={% url "forum:thread_detail" pk=thread.pk %}>{{ thread.title }}</a>
+            <a href={% url "forum:thread_detail" thread.pk %}>{{ thread.title }}</a>
             <br>
           {% endif %}
         {% endfor %}

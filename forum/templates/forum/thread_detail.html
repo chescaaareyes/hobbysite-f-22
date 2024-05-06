@@ -5,11 +5,16 @@
 {% block content %}
   <div class="content__threads">
     <div class="content__threads__user">
-      <h3>Author: {{ thread.author }}</h2>
+      <h3>
+        Author: {{ thread.author }}
+      </h2>
       <h3>Category: {{ thread.category.name }}</h3>
       <p>{{ thread.entry }}</p>
       <p>Created on: {{ thread.created_on }}</p>
       <p>Updated on: {{ thread.updated_on }}</p>
+      {% if thread.author.user == user %}
+        <a href={% url "forum:thread_update" pk=thread.pk %}>Update thread</a>
+      {% endif %}
     </div>
     <br>
     <div class="content__threads__list">
