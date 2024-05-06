@@ -9,7 +9,7 @@ from .models import Commission, Job
 
 
 def commission_list(request):
-    commissions = Commission.objects.annotate(
+    all_commissions = Commission.objects.annotate(
         custom_order=Case(
             When(status="Open", then=Value(0)),
             When(status="Full", then=Value(1)),
@@ -17,7 +17,15 @@ def commission_list(request):
             When(status="Discontinued", then=Value(3)),
         )
     ).order_by("custom_order")
-    ctx = {"commissions": commissions}
+    created_commissions = Commission.objects.filter(author__user__pk=request.user.pk)
+    applied_commissions = Commission.objects.filter(
+        job__job_application__applicant__user__pk=request.user.pk
+    )
+    ctx = {
+        "all_commissions": all_commissions,
+        "created_commissions": created_commissions,
+        "applied_commissions": applied_commissions,
+    }
     return render(request, "commissions/commission_list.html", ctx)
 
 
@@ -85,7 +93,5 @@ def commission_update(request, pk):
             commission.save()
             return redirect("commissions:commission_detail", pk=commission.pk)
     new_updated_on = datetime.datetime.now()
-    ctx = {
-        "form": form, "commission": commission, "updated_on": new_updated_on
-    }
+    ctx = {"form": form, "commission": commission, "updated_on": new_updated_on}
     return render(request, "commissions/commission_update.html", ctx)
