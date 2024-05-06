@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Case, Sum, Value, When
 from django.shortcuts import redirect, render
 
-from .forms import CommissionForm, JobApplicationForm
+from .forms import CommissionForm, JobForm, JobFormSet, JobApplicationForm
 from .models import Commission, Job, JobApplication
 from user_management.models import Profile
 
@@ -50,9 +50,8 @@ def commission_detail(request, pk):
     job_form = None
     
     if request.user.is_authenticated:
-        job_form = JobApplicationForm()
+        job_form = JobApplicationForm(initial={"job": Job.objects.get(pk=1), "applicant": Profile.objects.get(pk=request.user.pk), "status": "Pending"})
         if request.method == "POST":
-            job_form = JobApplicationForm(initial={"job": Job.objects.get(pk=1), "applicant": Profile.objects.get(pk=request.user.pk), "status": "Pending"})
             job_form = JobApplicationForm(request.POST)
             if job_form.is_valid():
                 new_application = JobApplication()
@@ -79,21 +78,33 @@ def commission_detail(request, pk):
 @login_required
 def commission_create(request):
     author = Profile.objects.get(pk=request.user.pk)
-    form = CommissionForm(initial={"author": author})
+    commission_form = CommissionForm(initial={"author": author})
+    job_form = JobFormSet(queryset=Job.objects.none())
     if request.method == "POST":
-        form = CommissionForm(request.POST)
-        if form.is_valid():
+        commission_form = CommissionForm(request.POST)
+        job_form = JobFormSet(request.POST)
+        if commission_form.is_valid() and job_form.is_valid():
+            # for commission
             new_commission = Commission()
-            new_commission.title = form.cleaned_data.get("title")
-            new_commission.description = form.cleaned_data.get("description")
-            new_commission.status = form.cleaned_data.get("status")
+            new_commission.title = commission_form.cleaned_data.get("title")
+            new_commission.description = commission_form.cleaned_data.get("description")
+            new_commission.status = commission_form.cleaned_data.get("status")
             new_commission.author = author
             new_commission.save()
+            # for job
+            for form in job_form:
+                new_job = Job()
+                new_job.commission = Commission.objects.get(pk=new_commission.pk)
+                new_job.role = form.cleaned_data.get("role")
+                new_job.manpower = form.cleaned_data.get("manpower")
+                new_job.status = form.cleaned_data.get("status")
+                new_job.save()
             return redirect("commissions:commission_detail", pk=new_commission.pk)
     new_created_on = datetime.datetime.now()
     new_updated_on = datetime.datetime.now()
     ctx = {
-        "form": form,
+        "commission_form": commission_form,
+        "job_form": job_form,
         "created_on": new_created_on,
         "updated_on": new_updated_on,
     }

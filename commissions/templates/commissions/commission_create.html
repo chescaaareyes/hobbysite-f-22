@@ -9,9 +9,12 @@
 {% block content %}
   <form method="post">
     {% csrf_token %}
-    {{ form }}
+    {{ commission_form }}
     <p>Created on: {{ created_on }}</p>
     <p>Updated on: {{ updated_on }}</p>
+    <hr>
+    <p>Add a job</p>
+    {{ job_form }}
     <input type="submit" value="Submit">
   </form>
 {% endblock content %}
