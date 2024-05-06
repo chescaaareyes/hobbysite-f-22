@@ -1,12 +1,47 @@
 {% extends "blog/base_blog.html" %}
+
 {% block content %}
-  <h1>{{ object.title }}</h1>
-  <p>Category: {{ object.category }}</p>
-  <p>Created on: {{ object.created_on }}</p>
+
+  <h1>{{ article.title }}</h1>
+  <p>Category: {{ article.category }}</p>
+  <p>Created on: {{ article.createdOn }}</p>
   <p>
     <i>Entry:</i>
   </p>
-  <p>{{ object.entry }}</p>
-  <p>Updated on: {{ object.updated_on }}</p>
-  <a href="/blog/articles/">Back</a>
+  <p>{{ article.entry }}</p>
+  <p>Updated on: {{ article.updatedOn }}</p>
+
+  <a href="{% url 'blog:article_list' %}">Back to Article List</a>
+
+  {% if request.user == article.author %}
+    <a href="{% url 'blog:article_update' article.pk %}">Edit Article</a>
+  {% endif %}
+
+  <h2>Other Articles by {{ article.author.username }}</h2>
+  <ul>
+    {% for author_article in author_articles %}
+      <li><a href="{% url 'blog:article_detail' articleId=author_article.pk %}">{{ author_article.title }}</a></li>
+    {% endfor %}
+  </ul>
+
+  {% if user.is_authenticated %}
+    <h2>Add Comment</h2>
+    <form method="post" action="{% url 'blog:add_comment' article.pk %}">
+      {% csrf_token %}
+      {{ comment_form.as_p }}
+      <button type="submit">Submit</button>
+    </form>
+  {% else %}
+    <p>You need to <a href="{% url 'login' %}">log in</a> to add comments.</p>
+  {% endif %}
+
+  <h2>Comments</h2>
+  <ul>
+    {% for comment in comments %}
+      <li>{{ comment.content }} - {{ comment.author }} ({{ comment.created_on }})</li>
+    {% empty %}
+      <li>No comments yet.</li>
+    {% endfor %}
+  </ul>
+
 {% endblock content %}
