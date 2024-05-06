@@ -62,7 +62,7 @@ class JobApplication(models.Model):
         Job, on_delete=models.CASCADE, related_name="job_application"
     )
     applicant = models.ForeignKey(
-        Profile, on_delete=models.CASCADE, related_name="job_application", null=True
+        Profile, on_delete=models.CASCADE, related_name="job_application"
     )
     STATUS_CHOICES = {
         "Pending": "Pending",

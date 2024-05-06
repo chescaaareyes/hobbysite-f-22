@@ -26,6 +26,14 @@
       <li>
         <p>{{ job.role }} ({{ job.status }})</p>
         <p>(Manpower Required: {{ job.manpower }})</p>
+        {% if user.is_authenticated %}
+          <form method="post">
+            {% csrf_token %}
+            {{ job_form }}
+            <input type="hidden" name="job_pk" value="{{ job.pk }}">
+            <input type="submit" value="Apply to Job">
+          </form>
+        {% endif %}
       </li>
     {% endfor %}
   </ul>

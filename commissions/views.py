@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Case, Sum, Value, When
 from django.shortcuts import redirect, render
 
-from .forms import CommissionForm
+from .forms import CommissionForm, JobApplicationForm
 from .models import Commission, Job
 from user_management.models import Profile
 
@@ -46,12 +46,23 @@ def commission_detail(request, pk):
         manpower_full += job_applications.filter(status="Accepted").count()
 
     manpower_open = manpower_required - manpower_full
+    
+    job_form = JobApplicationForm()
+    if request.method == "POST":
+        job_form = JobApplicationForm(request.POST)
+        if job_form.is_valid():
+            new_job = Job()
+            new_job.job = request.POST["job"]
+            new_job.applicant = request.POST["applicant"]
+            new_job.status = "Pending"
+            return redirect("commissions:commission_detail", pk=pk)
 
     ctx = {
         "commission": commission,
         "jobs": jobs,
         "manpower_required": manpower_required,
         "manpower_open": manpower_open,
+        "job_form": job_form
     }
 
     return render(request, "commissions/commission_detail.html", ctx)
