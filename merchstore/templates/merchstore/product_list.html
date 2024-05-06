@@ -36,7 +36,7 @@
   {% if user.is_authenticated %}
   <a href="{% url 'merchstore:product_add' %}">Add Products Here</a>
   <a href="{% url 'merchstore:cart' %}">Cart</a>
-  <a href="{% url 'merchstore:transaction' %}">Title</a>
+  <a href="{% url 'merchstore:transaction' %}">Transactions</a>
   {% endif %}
 
 {% endblock %}

@@ -24,9 +24,10 @@ class Product(models.Model):
 
     STOCK_CHOICES = {
         "Available" : "Available",
-        "On sale" : "On Sale",
+        "On Sale" : "On Sale",
         "Out of Stock" : "Out of Stock",
     }
+    
     stock = models.IntegerField(default=0)
     status = models.CharField(max_length=12, choices=STOCK_CHOICES, default=STOCK_CHOICES["Available"])
 

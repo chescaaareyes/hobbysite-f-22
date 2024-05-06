@@ -5,20 +5,28 @@
   <h2>{{ name }}</h2>
   <p>
     <b> Product Type: </b> {{ product_type }}
-    <br />
+    <br>
     <b> Price : </b> {{ price }}
+    <br>
+    <b>Owner :</b> {{ owner }}
   </p>
   <b>Description:</b>
   <p>{{ description }}</p>
 
+  <b>Status:</b> {{ status }}
+  <br>
+  <b>Stock:</b> {{stock}}
+  <br>
 
-  {% if logged_user != owner %}
+
+  {% if logged_user != owner and status == "On Sale" %}
   <form method="POST">
     {% csrf_token %}
     {{ form }}
     <button>BUY NOW</button>
   </form>
-  {% else %}
+  {% endif %}
+  {% if logged_user == owner %}
   <a href="{% url 'merchstore:product_edit' pk=product.pk %}">Edit Form</a>
   {% endif %}
 {% endblock %}

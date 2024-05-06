@@ -11,18 +11,18 @@ def products_list(request):
     your_shop = []
     user_products = []
     if request.user.is_authenticated:
-        username = request.user.profile
-        your_shop = Product.objects.filter(status = "on sale").filter(owner = request.user.profile)
-        for_sale = Product.objects.exclude(owner = request.user.profile).filter(status = "on sale")
-        user_products = Product.objects.exclude(status = "on sale").filter(owner = request.user.profile)
-        other_products = Product.objects.exclude(status = "on sale").exclude(owner = request.user.profile)
+        logged_user = request.user.profile
+        your_shop = Product.objects.filter(status = "On Sale").filter(owner = logged_user)
+        for_sale = Product.objects.exclude(owner = logged_user).filter(status = "On Sale")
+        user_products = Product.objects.exclude(status = "On Sale").filter(owner = logged_user)
+        other_products = Product.objects.exclude(status = "On Sale").exclude(owner = logged_user)
     else:
-        username = "Anonymous"
-        for_sale = Product.objects.filter(status = "on sale")
-        other_products = Product.objects.exclude(status = "on sale")
+        logged_user = "Anonymous"
+        for_sale = Product.objects.filter(status = "On Sale")
+        other_products = Product.objects.exclude(status = "On Sale")
         
     ctx = {
-        "username" : username,
+        "username" : logged_user,
         "your_shop" : your_shop,
         "user_products": user_products,
         "others" : other_products,
@@ -56,6 +56,8 @@ def product_detail(request, pk):
         "price": product.price,
         "product_type": product.product_type.name,
         "form" : form,
+        "status" : product.status,
+        "stock" : product.stock,
     }
     return render(request, "merchstore/product_detail.html", ctx)
 
