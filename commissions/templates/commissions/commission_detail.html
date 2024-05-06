@@ -8,7 +8,8 @@
 {% endblock heading %}
 {% block content %}
   <p>From {{ commission.author }}</p>
-  <p>Description: {{ commission.description }}</p>
+  <p>Description:</p>
+  <p>{{ commission.description }}</p>
   <p>Total Manpower Required: {{ manpower_required }}</p>
   <p>Total Manpower Open: {{ manpower_open }}</p>
   <p>Status: {{ commission.get_status_display }}</p>

@@ -52,8 +52,8 @@ def commission_detail(request, pk):
         job_form = JobApplicationForm(request.POST)
         if job_form.is_valid():
             new_job = Job()
-            new_job.job = request.POST["job"]
-            new_job.applicant = request.POST["applicant"]
+            new_job.job = job_form.cleaned_data.get("job")
+            new_job.applicant = job_form.cleaned_data.get("applicant")
             new_job.status = "Pending"
             return redirect("commissions:commission_detail", pk=pk)
 
@@ -95,13 +95,19 @@ def commission_create(request):
 @login_required
 def commission_update(request, pk):
     commission = Commission.objects.get(pk=pk)
-    form = CommissionForm()
+    required_count = Job.objects.filter(commission__pk=pk).count()
+    accepted_count = Job.objects.filter(commission__pk=pk).filter(status="Full").count()
+    if accepted_count == required_count:
+        current_status = "Full"
+    else:
+        current_status = commission.status
+    form = CommissionForm(initial={"title": commission.title, "description": commission.description, "status": current_status, "author": commission.author})
     if request.method == "POST":
         form = CommissionForm(request.POST)
         if form.is_valid():
             commission.title = form.cleaned_data.get("title")
             commission.description = form.cleaned_data.get("description")
-            commission.status = form.cleaned_data.get("status")
+            commission.status = current_status
             commission.updated_on = datetime.datetime.now()
             commission.save()
             return redirect("commissions:commission_detail", pk=commission.pk)
