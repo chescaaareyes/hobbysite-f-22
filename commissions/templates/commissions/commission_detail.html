@@ -32,7 +32,7 @@
             {% csrf_token %}
             {{ job_form }}
             <input type="hidden" name="job_pk" value="{{ job.pk }}">
-            {% if job.get_number_of_applications == job.manpower %}
+            {% if job.get_number_of_accepted_applications == job.manpower %}
               <input type="submit" value="Apply to Job" disabled>
             {% else %}
               <input type="submit" value="Apply to Job">

@@ -50,7 +50,7 @@ def commission_detail(request, pk):
     job_form = None
     
     if request.user.is_authenticated:
-        job_form = JobApplicationForm(initial={"job": Job.objects.get(pk=1), "applicant": Profile.objects.get(pk=request.user.pk), "status": "Pending"})
+        job_form = JobApplicationForm()
         if request.method == "POST":
             job_form = JobApplicationForm(initial={"job": Job.objects.get(pk=1), "applicant": Profile.objects.get(pk=request.user.pk), "status": "Pending"})
             job_form = JobApplicationForm(request.POST)
