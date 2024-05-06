@@ -5,12 +5,13 @@ from .forms import ArticleForm, CommentForm
 
 # Article List View
 def articleList(request):
+    articles = Article.objects.order_by("-createdOn")
     if request.user.is_authenticated:
-        userArticles = Article.objects.filter(author=request.user.profile)
-        allArticles = Article.objects.exclude(author=request.user.profile)
+        userArticles = articles.filter(author=request.user)
+        allArticles = articles.exclude(author=request.user)
         context = {'userArticles': userArticles, 'allArticles': allArticles}
     else:
-        allArticles = Article.objects.all()
+        allArticles = articles.all()
         context = {'allArticles': allArticles}
     return render(request, 'blog/article_list.html', context)
 
