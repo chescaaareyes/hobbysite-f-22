@@ -6,6 +6,7 @@ from django.shortcuts import redirect, render
 
 from .forms import CommissionForm
 from .models import Commission, Job
+from user_management.models import Profile
 
 
 def commission_list(request):
@@ -58,7 +59,8 @@ def commission_detail(request, pk):
 
 @login_required
 def commission_create(request):
-    form = CommissionForm()
+    author = Profile.objects.get(pk=request.user.pk)
+    form = CommissionForm(initial={"author": author})
     if request.method == "POST":
         form = CommissionForm(request.POST)
         if form.is_valid():
@@ -66,6 +68,7 @@ def commission_create(request):
             new_commission.title = form.cleaned_data.get("title")
             new_commission.description = form.cleaned_data.get("description")
             new_commission.status = form.cleaned_data.get("status")
+            new_commission.author = author
             new_commission.save()
             return redirect("commissions:commission_detail", pk=new_commission.pk)
     new_created_on = datetime.datetime.now()
@@ -74,7 +77,6 @@ def commission_create(request):
         "form": form,
         "created_on": new_created_on,
         "updated_on": new_updated_on,
-        "author": request.user,
     }
     return render(request, "commissions/commission_create.html", ctx)
 
