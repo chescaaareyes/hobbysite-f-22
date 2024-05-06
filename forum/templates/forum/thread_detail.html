@@ -31,10 +31,10 @@
           <br>
         {% endif %}
       {% endfor %}
-      <p>
-        <b>Post a Comment</b>
-      </p>
       {% if request.user.is_authenticated %}
+        <p>
+          <b>Post a Comment</b>
+        </p>
         <form method="post">
           {% csrf_token %}
           {{ form.as_p }}

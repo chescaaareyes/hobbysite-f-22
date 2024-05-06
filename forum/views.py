@@ -20,7 +20,6 @@ def thread_list(request):
 
 
 def thread_detail(request, pk):
-    author = Profile.objects.get(pk=request.user.pk)
     threads = Thread.objects.all()
     thread = Thread.objects.get(pk=pk)
     comments = Comment.objects.all()
@@ -29,6 +28,7 @@ def thread_detail(request, pk):
         form = CommentForm(request.POST)
         if form.is_valid():
             new_comment = Comment()
+            author = Profile.objects.get(pk=request.user.pk)
             new_comment.author = author
             new_comment.thread = thread
             new_comment.entry = form.cleaned_data.get("entry")
