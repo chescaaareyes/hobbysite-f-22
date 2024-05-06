@@ -12,8 +12,12 @@
       <p>Updated on: {{ thread.updated_on }}</p>
     </div>
     <br>
+    <div class="content__threads__list">
+      <a href={% url "forum:thread_list" %}>Go back to threads list</a>
+    </div>
+    <br>
     <div class="content__threads__others">
-      <h2>See other threads from the category {{ thread.category.name }}</h2>
+      <h2>See other threads from the {{ thread.category.name }} category</h2>
       {% for other_thread in threads %}
         {% if other_thread.category.name == thread.category.name and other_thread.title != thread.title %}
           <a href={% url "forum:thread_detail" pk=other_thread.pk %}>{{ other_thread.title }}</a>
