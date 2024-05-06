@@ -63,4 +63,21 @@ def thread_create(request):
 
 @login_required
 def thread_update(request, pk):
-    return HttpResponse("Hello World")
+    thread = Thread.objects.get(pk=pk)
+    form = ThreadForm()
+    if request.method == "POST":
+        form = ThreadForm(request.POST)
+        if form.is_valid():
+            thread.title = form.cleaned_data.get("title")
+            thread.category = form.cleaned_data.get("category")
+            thread.entry = form.cleaned_data.get("entry")
+            thread.updated_on = datetime.datetime.now()
+            thread.save()
+            return redirect("forum:thread_detail", pk=thread.pk)
+    new_updated_on = datetime.datetime.now()
+    ctx = {
+        "form": form,
+        "thread": thread,
+        "updated_on": new_updated_on,
+    }
+    return render(request, "forum/thread_update.html", ctx)
