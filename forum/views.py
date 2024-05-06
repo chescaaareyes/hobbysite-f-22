@@ -13,14 +13,22 @@ from .models import Comment, Thread, ThreadCategory
 def thread_list(request):
     categories = ThreadCategory.objects.all()
     threads = Thread.objects.all()
-    ctx = {"categories": categories, "threads": threads}
+    ctx = {
+        "categories": categories,
+        "threads": threads,
+    }
     return render(request, "forum/thread_list.html", ctx)
 
 
 def thread_detail(request, pk):
-    category = ThreadCategory.objects.get(pk=pk)
-    posts = Thread.objects.filter(category__pk=pk)
-    ctx = {"category": category, "posts": posts}
+    threads = Thread.objects.all()
+    thread = Thread.objects.get(pk=pk)
+    comments = Comment.objects.filter(thread__pk=pk)
+    ctx = {
+        "threads": threads,
+        "thread": thread,
+        "comments": comments,
+    }
     return render(request, "forum/thread_detail.html", ctx)
 
 
@@ -41,7 +49,7 @@ def thread_create(request):
             new_thread.category = form.cleaned_data.get("category")
             new_thread.entry = form.cleaned_data.get("entry")
             new_thread.save()
-            return redirect("forum:thread_list")
+            return redirect("forum:thread_detail", pk=new_thread.pk)
     new_created_on = datetime.datetime.now()
     new_updated_on = datetime.datetime.now()
     ctx = {
