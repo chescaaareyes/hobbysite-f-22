@@ -11,7 +11,7 @@ def products_list(request):
     your_shop = []
     user_products = []
     if request.user.is_authenticated:
-        username = request.user.profile.display_name
+        username = request.user.profile
         your_shop = Product.objects.filter(status = "on sale").filter(owner = request.user.profile)
         for_sale = Product.objects.exclude(owner = request.user.profile).filter(status = "on sale")
         user_products = Product.objects.exclude(status = "on sale").filter(owner = request.user.profile)
@@ -34,7 +34,6 @@ def products_list(request):
 def product_detail(request, pk):
     product = Product.objects.get(pk=pk)
     user = request.user.profile
-    username = request.user.profile.display_name
 
     form = TransactionForm()
     if request.method == "POST":
@@ -49,9 +48,10 @@ def product_detail(request, pk):
             transact.save()
             return redirect("user_management:home")
     ctx = {
-        "username" : username,
+        "logged_user" : user,
+        "product" : product,
         "name": product.name,
-        "owner" : product.owner.display_name,
+        "owner" : product.owner,
         "description": product.description,
         "price": product.price,
         "product_type": product.product_type.name,
@@ -67,12 +67,31 @@ def product_add(request):
     if request.method == "POST":
         form = ProductForm(request.POST)
         if form.is_valid:
-            product = Product()
-            product.owner = user
             product = form.save()
+            product.owner = user
+            product.save()
             return redirect("merchstore:product_detail", pk=product.pk)
-    ctx = {"form" : form }
+    ctx = {
+        "form" : form,
+        "logged_user" : user,
+    }
     return render(request, "merchstore/product_add.html", ctx)
+
+
+@login_required
+def product_updateview(request, pk):
+    user = request.user.profile
+    form = ProductForm()
+    if request.method == "POST":
+        form = ProductForm(request.POST)
+        if form.is_valid:
+            form.save()
+            return redirect("merchstore:product_edit", pk=product.pk)
+    ctx = {
+        "form" : form,
+        "logged_user" : user,
+    }
+    return render(request, "merchstore/product_edit.html", ctx)
 
 
 @login_required

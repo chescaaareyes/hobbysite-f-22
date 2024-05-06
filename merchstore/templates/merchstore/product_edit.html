@@ -1,6 +1,6 @@
 {% extends "merchstore/base_merchstore.html" %}
 {% block content %}
-Owner : {{ logged_user }}
+Owner: {{ logged_user }}
 <form method="POST">
     {% csrf_token %}
     {{ form }}

@@ -1,6 +1,6 @@
 {% extends "merchstore/base_merchstore.html" %}
 {% block content %}
-{{username}}
+{{ logged_user }}
 
   <h2>{{ name }}</h2>
   <p>
@@ -12,11 +12,13 @@
   <p>{{ description }}</p>
 
 
-  {% if username != owner %}
+  {% if logged_user != owner %}
   <form method="POST">
     {% csrf_token %}
     {{ form }}
     <button>BUY NOW</button>
   </form>
+  {% else %}
+  <a href="{% url 'merchstore:product_edit' pk=product.pk %}">Edit Form</a>
   {% endif %}
 {% endblock %}
