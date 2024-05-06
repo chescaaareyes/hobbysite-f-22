@@ -1,0 +1,16 @@
+{% extends "forum/base_forum.html" %}
+{% block heading %}
+  Create Thread
+{% endblock heading %}
+{% block content %}
+  <div class="content__create">
+    <p>Author: {{ author }}</p>
+    <p>Created on: {{ created_on }}</p>
+    <p>Updated on: {{ updated_on }}</p>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+{% endblock content %}

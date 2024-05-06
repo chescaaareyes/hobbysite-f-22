@@ -21,14 +21,18 @@ class ThreadCategory(models.Model):
 class Thread(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(
-        Profile, on_delete=models.SET_NULL, related_name="thread_author", null=True
+        Profile,
+        on_delete=models.SET_NULL,
+        related_name="thread_author",
+        null=True,
+        editable=False,
     )
     category = models.ForeignKey(
         ThreadCategory, on_delete=models.SET_NULL, related_name="category", null=True
     )
     entry = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
+    created_on = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_on = models.DateTimeField(auto_now=True, editable=False)
 
     class Meta:
         ordering = ["-created_on"]

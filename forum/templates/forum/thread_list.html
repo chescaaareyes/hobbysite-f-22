@@ -3,23 +3,31 @@
   Thread List
 {% endblock heading %}
 {% block content %}
-  <div class="content__categories">
-    <h2>Your Threads</h2>
-    {% for thread in threads %}
-      {% if thread.author.user == user %}
-        <a href={{ thread.category.get_absolute_url }}>{{ thread.title }}</a>
-      {% endif %}
-    {% endfor %}
-    <h2>Other Threads</h2>
-    {% for category in categories %}
-      <h3>{{ category.name }}</h3>
-      <h4>{{ category.description }}</h4>
+  <div class="content__threads">
+    <div class="content__threads__create">
+      <a href={% url "forum:thread_create" %}>Create a Thread</a>
+    </div>
+    <div class="content__threads__user">
+      <h2>Your Threads</h2>
       {% for thread in threads %}
-        {% if thread.category.name == category.name and thread.author.user != user %}
+        {% if thread.author.user == user %}
           <a href={{ thread.category.get_absolute_url }}>{{ thread.title }}</a>
           <br>
         {% endif %}
       {% endfor %}
-    {% endfor %}
+    </div>
+    <div class="content__threads__other">
+      <h2>Other Threads</h2>
+      {% for category in categories %}
+        <h3>{{ category.name }}</h3>
+        <h4>{{ category.description }}</h4>
+        {% for thread in threads %}
+          {% if thread.category.name == category.name and thread.author.user != user %}
+            <a href={{ thread.category.get_absolute_url }}>{{ thread.title }}</a>
+            <br>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </div>
   </div>
 {% endblock content %}
