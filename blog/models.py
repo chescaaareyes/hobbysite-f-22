@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.contrib.auth.models import User
 
 
@@ -54,7 +55,7 @@ class Comment(models.Model):
         related_name="comments"
     )
     entry = models.TextField()
-    createdOn = models.DateTimeField(auto_created=True)
+    createdOn = models.DateTimeField(default=timezone.now)
     updatedOn = models.DateTimeField(auto_now=True)
 
     class Meta:

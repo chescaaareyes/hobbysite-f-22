@@ -19,13 +19,25 @@ def articleDetail(request, pk):
     article = get_object_or_404(Article, pk=pk)
     authorArticles = Article.objects.filter(author=article.author).exclude(pk=pk)[:2]
     comments = Comment.objects.filter(article=article).order_by('-createdOn')
-    form = CommentForm()
-    return render(request, 'blog/article_detail.html', {
+    
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.article = article
+            comment.author = request.user
+            comment.save()
+            return redirect('blog:article_detail', pk=pk)
+    else:
+        form = CommentForm()
+    
+    context = {
         'article': article,
         'authorArticles': authorArticles,
         'comments': comments,
         'form': form
-    })
+    }
+    return render(request, 'blog/article_detail.html', context)
 
 @login_required
 def articleCreate(request):
@@ -42,15 +54,15 @@ def articleCreate(request):
     return render(request, 'blog/article_form.html', {'form': form})
 
 @login_required
-def articleUpdate(request, articleId):
-    article = get_object_or_404(Article, pk=articleId)
+def articleUpdate(request, pk):
+    article = get_object_or_404(Article, pk=pk)
     if request.user != article.author:
-        return HttpResponse('You are not allowed to edit this article.')
+        return HttpResponse('You are not authorized to edit this article.')
     if request.method == 'POST':
         form = ArticleForm(request.POST, instance=article)
         if form.is_valid():
             form.save()
-            return redirect('article_detail', articleId=articleId)
+            return redirect('blog:article_detail', pk=pk)
     else:
         form = ArticleForm(instance=article)
     return render(request, 'blog/article_form.html', {'form': form})
