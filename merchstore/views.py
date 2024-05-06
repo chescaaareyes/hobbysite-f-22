@@ -76,10 +76,22 @@ def product_add(request):
 
 
 @login_required
+def cart_view(request):
+    user = request.user.profile
+    users_cart = Transaction.objects.filter(buyer = user).order_by("product__owner")
+    ctx = {
+        "logged_user" : user,
+        "users_cart" : users_cart,
+    }
+    return render(request, "merchstore/cart.html", ctx)
+
+
+@login_required
 def transaction_view(request):
     user = request.user.profile
-    user_transactions = Transaction.objects.filter(buyer = user)
+    users_transactions = Transaction.objects.filter(product__owner = user).order_by("buyer")
     ctx = {
-        "user_transactions" : user_transactions
+        "logged_user" : user,
+        "users_transactions" : users_transactions,
     }
     return render(request, "merchstore/transactions.html", ctx)
