@@ -73,3 +73,13 @@ def product_add(request):
             return redirect("merchstore:product_detail", pk=product.pk)
     ctx = {"form" : form }
     return render(request, "merchstore/product_add.html", ctx)
+
+
+@login_required
+def transaction_view(request):
+    user = request.user.profile
+    user_transactions = Transaction.objects.filter(buyer = user)
+    ctx = {
+        "user_transactions" : user_transactions
+    }
+    return render(request, "merchstore/transactions.html", ctx)
