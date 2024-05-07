@@ -9,7 +9,9 @@
     <br>
     Bought by {{ transaction.buyer }}
     <br>
-    Status: {{ transaction.status }}
+    Status: {{ transaction.get_status }}
+    <br>
+    Transaction made on : {{ transaction.created_on }}
 </li>
 {% endfor %}
 </ul>

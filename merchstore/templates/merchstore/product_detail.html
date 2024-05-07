@@ -13,7 +13,7 @@
   <b>Description:</b>
   <p>{{ description }}</p>
 
-  <b>Status:</b> {{ status }}
+  <b>Status:</b> {{ product.get_status }}
   <br>
   <b>Stock:</b> {{stock}}
   <br>
@@ -23,7 +23,13 @@
   <form method="POST">
     {% csrf_token %}
     {{ form }}
+
+    {% if stock == 0 %}
+    <button disabled>BUY NOW</button>
+    {% else %}
     <button>BUY NOW</button>
+    {% endif %}
+
   </form>
   {% endif %}
   {% if logged_user == owner %}

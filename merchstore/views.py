@@ -5,8 +5,9 @@ from django.utils import timezone
 from .models import Product, ProductType, Transaction
 from .forms import TransactionForm, ProductForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import AnonymousUser
 
-# @login_required
+
 def products_list(request):
     your_shop = []
     user_products = []
@@ -30,25 +31,32 @@ def products_list(request):
     }
     return render(request, "merchstore/product_list.html", ctx)
 
-@login_required
+
 def product_detail(request, pk):
     product = Product.objects.get(pk=pk)
-    user = request.user.profile
-
     form = TransactionForm()
     if request.method == "POST":
-        form = TransactionForm(request.POST)
+        form = TransactionForm(request.POST, product=product)
         if form.is_valid():
             transact = Transaction()
-            transact.buyer = user
-            transact.created_on = timezone.now()
             transact.product = product
             transact.amount = form.cleaned_data.get("amount")
-            transact.status = "on cart"
-            transact.save()
-            return redirect("user_management:home")
+            transact.status = 0
+            if request.user.is_authenticated:
+                user = request.user.profile
+                transact.buyer = user
+                product.stock -= transact.amount
+                if product.stock == 0:
+                    product.status = "Out of Stock"
+                else:
+                    product.status = "Available"
+                product.save()
+                transact.save()
+                return redirect("merchstore:cart")
+            else:
+                return redirect("login")
+
     ctx = {
-        "logged_user" : user,
         "product" : product,
         "name": product.name,
         "owner" : product.owner,
@@ -59,6 +67,8 @@ def product_detail(request, pk):
         "status" : product.status,
         "stock" : product.stock,
     }
+    if request.user.is_authenticated:
+        ctx["logged_user"] = request.user.profile
     return render(request, "merchstore/product_detail.html", ctx)
 
 
@@ -71,6 +81,8 @@ def product_add(request):
         if form.is_valid:
             product = form.save()
             product.owner = user
+            if product.stock == 0:
+                product.status = "Out of Stock"
             product.save()
             return redirect("merchstore:product_detail", pk=product.pk)
     ctx = {
@@ -82,13 +94,17 @@ def product_add(request):
 
 @login_required
 def product_updateview(request, pk):
+    product = Product.objects.get(pk=pk)
     user = request.user.profile
     form = ProductForm()
     if request.method == "POST":
         form = ProductForm(request.POST)
         if form.is_valid:
-            form.save()
-            return redirect("merchstore:product_edit", pk=product.pk)
+            product.owner = user
+            if product.stock == 0:
+                product.status = "Out of Stock"
+            product.save()
+            return redirect("merchstore:product_detail", pk=product.pk)
     ctx = {
         "form" : form,
         "logged_user" : user,
