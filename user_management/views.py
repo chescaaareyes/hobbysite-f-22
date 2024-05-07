@@ -8,6 +8,9 @@ from .models import Profile
 def home(request):
     return render(request, "user_management/home.html")
 
+def user_profile(request):
+    user = request.user.profile
+    return render(request, "user_management/profile.html", {"profile" : user})
 
 def register(request):
     form = RegisterForm()
@@ -28,3 +31,15 @@ def register(request):
                 login(request, user)
                 return redirect("/")
     return render(request, "registration/register.html", {"form": form})
+
+
+def update_profile(request):
+    profile = request.user.profile
+    if request.method == "POST":
+        form = ProfileUpdateForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect("user_management:user-profile")
+    else:
+        form = ProfileUpdateForm(instance=profile)
+    return render(request, "registration/profile_update.html", {"form": form})
