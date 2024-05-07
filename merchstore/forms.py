@@ -9,7 +9,7 @@ class TransactionForm(forms.ModelForm):
 
     class Meta:
         model = Transaction
-        fields = ["amount"]
+        fields = ['amount', 'created_on',]
 
     def clean_amount(self, *args, **kwargs):
         print(args)
@@ -23,4 +23,4 @@ class TransactionForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        exclude = ['owner', 'created_on', ]
+        exclude = ['owner', ]
