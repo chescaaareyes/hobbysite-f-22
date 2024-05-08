@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render
 
-from .forms import RegisterForm
+from .forms import RegisterForm, UpdateForm
 from .models import Profile
 
 
@@ -36,10 +36,10 @@ def register(request):
 def update_profile(request):
     profile = request.user.profile
     if request.method == "POST":
-        form = ProfileUpdateForm(request.POST, instance=profile)
+        form = UpdateForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect("user_management:user-profile")
+            return redirect("user_management:profile")
     else:
-        form = ProfileUpdateForm(instance=profile)
-    return render(request, "registration/profile_update.html", {"form": form})
+        form = UpdateForm(instance=profile)
+    return render(request, "user_management/profile_update.html", {"form": form})
