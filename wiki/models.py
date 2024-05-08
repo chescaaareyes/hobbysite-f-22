@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from user_management.models import Profile
 from django.urls import reverse
 
 
@@ -15,7 +15,7 @@ class ArticleCategory(models.Model):
 
 class Article(models.Model):
     author = models.ForeignKey(
-        User, 
+        Profile, 
         on_delete=models.SET_NULL,
         null = True,
         related_name = "author"
@@ -43,7 +43,7 @@ class Article(models.Model):
 
 class Comment(models.Model):
     author = models.ForeignKey(
-        User,
+        Profile,
         on_delete=models.SET_NULL,
         null = True,
         related_name="user_comments"
@@ -62,4 +62,4 @@ class Comment(models.Model):
         ordering = ['-created_on']
 
     def __str__(self):
-        return f"{self.author.username} for {self.article.title}"
+        return f"{self.author.user} for {self.article.title}"
