@@ -28,7 +28,7 @@ class Commission(models.Model):
         return reverse("commissions:commission_detail", args=[self.pk])
 
     def get_jobs(self):
-        return Job.objects.filter(job__pk=self.pk)
+        return Job.objects.filter(commission__pk=self.pk)
 
     class Meta:
         ordering = ["created_on"]
@@ -84,9 +84,6 @@ class JobApplication(models.Model):
     }
     status = models.CharField(max_length=8, choices=STATUS_CHOICES, default="Pending")
     applied_on = models.DateTimeField(auto_now_add=True)
-
-    def get_commissions(self):
-        return Commission
 
     class Meta:
         ordering = [

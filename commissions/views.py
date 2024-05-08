@@ -4,9 +4,10 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Case, Sum, Value, When
 from django.shortcuts import redirect, render
 
-from .forms import CommissionForm, JobForm, JobFormSet, JobApplicationForm
-from .models import Commission, Job, JobApplication
 from user_management.models import Profile
+
+from .forms import CommissionForm, JobApplicationForm, JobFormSet
+from .models import Commission, Job, JobApplication
 
 
 def commission_list(request):
@@ -21,7 +22,7 @@ def commission_list(request):
     created_commissions = Commission.objects.filter(author__user__pk=request.user.pk)
     applied_commissions = Commission.objects.filter(
         job__job_application__applicant__user__pk=request.user.pk
-    )
+    ).distinct()
     ctx = {
         "all_commissions": all_commissions,
         "created_commissions": created_commissions,
@@ -47,10 +48,10 @@ def commission_detail(request, pk):
 
     manpower_open = manpower_required - manpower_full
 
-    job_form = None
+    application_form = None
 
     if request.user.is_authenticated:
-        job_form = JobApplicationForm(
+        application_form = JobApplicationForm(
             initial={
                 "job": Job.objects.get(pk=1),
                 "applicant": Profile.objects.get(pk=request.user.pk),
@@ -58,12 +59,10 @@ def commission_detail(request, pk):
             }
         )
         if request.method == "POST":
-            job_form = JobApplicationForm(request.POST)
-            if job_form.is_valid():
+            application_form = JobApplicationForm(request.POST)
+            if application_form.is_valid():
                 new_application = JobApplication()
                 job_pk = int(request.POST.get("job-pk"))
-                print(job_pk)
-                print(Job.objects.get(pk=job_pk))
                 new_application.job = Job.objects.get(pk=job_pk)
                 new_application.applicant = Profile.objects.get(pk=request.user.pk)
                 new_application.status = "Pending"
@@ -75,7 +74,7 @@ def commission_detail(request, pk):
         "jobs": jobs,
         "manpower_required": manpower_required,
         "manpower_open": manpower_open,
-        "job_form": job_form,
+        "application_form": application_form,
     }
 
     return render(request, "commissions/commission_detail.html", ctx)
@@ -85,7 +84,7 @@ def commission_detail(request, pk):
 def commission_create(request):
     author = Profile.objects.get(pk=request.user.pk)
     commission_form = CommissionForm(initial={"author": author})
-    job_form = JobFormSet(queryset=Job.objects.none())
+    job_form = JobFormSet()
     if request.method == "POST":
         commission_form = CommissionForm(request.POST)
         job_form = JobFormSet(request.POST)

@@ -2,7 +2,7 @@ from django import forms
 
 from .models import Commission, Job, JobApplication
 
-from django.forms import formset_factory, modelformset_factory
+from django.forms import modelformset_factory, BaseFormSet
 
 
 class CommissionForm(forms.ModelForm):
@@ -13,15 +13,16 @@ class CommissionForm(forms.ModelForm):
     class Meta:
         model = Commission
         fields = "__all__"
+        
+
+class RequiredFormSet(BaseFormSet):
+    def __init__(self, *args, **kwargs):
+        super(RequiredFormSet, self).__init__(*args, **kwargs)
+        for form in self.forms:
+            form.empty_permitted = False
 
 
-class JobForm(forms.ModelForm):
-    class Meta:
-        model = Job
-        fields = ["role", "manpower", "status"]
-
-
-JobFormSet = modelformset_factory(Job, fields=("role", "manpower", "status"), extra=1)
+JobFormSet = modelformset_factory(Job, fields=("role", "manpower", "status"), extra=1, formset=RequiredFormSet)
 
 
 class JobApplicationForm(forms.ModelForm):
