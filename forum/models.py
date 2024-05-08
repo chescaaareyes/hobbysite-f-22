@@ -16,12 +16,12 @@ class Thread(models.Model):
     author = models.ForeignKey(
         Profile,
         on_delete=models.SET_NULL,
-        related_name="thread_author",
+        related_name="thread",
         null=True,
         editable=False,
     )
     category = models.ForeignKey(
-        ThreadCategory, on_delete=models.SET_NULL, related_name="category", null=True
+        ThreadCategory, on_delete=models.SET_NULL, related_name="thread", null=True
     )
     entry = models.TextField()
     image = models.ImageField(upload_to="images/", null=True)
@@ -41,7 +41,7 @@ class Comment(models.Model):
         editable=False,
     )
     thread = models.ForeignKey(
-        Thread, on_delete=models.CASCADE, related_name="thread", editable=False
+        Thread, on_delete=models.CASCADE, related_name="comment", editable=False
     )
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
