@@ -7,18 +7,46 @@
   <a href="{% url "commissions:commission_list" %}">{{ commission }}</a>
 {% endblock heading %}
 {% block content %}
-  <p>Description: {{ commission.description }}</p>
-  <p>People Required: {{ commission.people_required }}</p>
+  <p>From {{ commission.author }}</p>
+  <p>Description:</p>
+  <p>{{ commission.description }}</p>
+  <p>Total Manpower Required: {{ manpower_required }}</p>
+  <p>Total Manpower Open: {{ manpower_open }}</p>
+  <p>Status: {{ commission.get_status_display }}</p>
   <br>
   <p>Created on: {{ commission.created_on }}</p>
   <p>Updated on: {{ commission.updated_on }}</p>
+  {% if user.pk == commission.author.pk %}
+    <a href={% url "commissions:commission_update" commission.pk %}>Update Commission</a>
+  {% endif %}
   <br>
-  <p>Comments:</p>
+  <br>
+  <p>Jobs:</p>
   <ul>
-    {% for comment in comments %}
+    {% for job in jobs %}
       <li>
-        <p>{{ comment.entry }}</p>
-        <p>(Created on {{ comment.created_on }}) (Updated on {{ comment.updated_on }})</p>
+        <p>{{ job.role }} ({{ job.status }})</p>
+        <p>(Manpower Required: {{ job.manpower }})</p>
+        {% if user.is_authenticated %}
+          <form method="post">
+            {% csrf_token %}
+            {{ application_form }}
+            <input type="hidden" name="job-pk" value="{{ job.pk }}">
+            {% if job.get_number_of_accepted_applications == job.manpower %}
+              <input type="submit" value="Apply to Job" disabled>
+            {% else %}
+              <input type="submit" value="Apply to Job">
+            {% endif %}
+          </form>
+        {% endif %}
+        <ul>
+          {% for job_application in job.get_job_applications %}
+            <li>
+              <p>Applicant: {{ job_application.applicant }}</p>
+              <p>Status: {{ job_application.status }}</p>
+            </li>
+          {% endfor %}
+        </ul>
       </li>
     {% endfor %}
   </ul>

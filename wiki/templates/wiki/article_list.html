@@ -1,10 +1,26 @@
 {% extends "wiki/base_wiki.html" %}
 {% block content %}
+  <h3>Your Articles</h3>
   <ul>
-    {% for article in articles %}
+    {% for article in user_articles %}
       <li>
         <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
       </li>
+    {% empty %}
+      <li>No articles found.</li>
     {% endfor %}
   </ul>
+
+  <h3>All Articles</h3>
+  <ul>
+    {% for article in other_articles %}
+      <li>
+        <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+      </li>
+    {% empty %}
+      <li>No articles found.</li>
+    {% endfor %}
+  </ul>
+
+  <a href="{% url 'wiki:article_update' %}">Create New Article</a>
 {% endblock content %}

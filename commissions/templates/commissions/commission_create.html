@@ -1,0 +1,51 @@
+{% extends "commissions/base_commissions.html" %}
+{% load static %}
+{% block title %}
+  Create a Commission
+{% endblock title %}
+{% block heading %}
+  Create a Commission
+{% endblock heading %}
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    {{ commission_form }}
+    <p>Created on: {{ created_on }}</p>
+    <p>Updated on: {{ updated_on }}</p>
+    <hr>
+    <p>Add a job</p>
+    <ul class="job-form-container">
+      {{ job_form.management_form }}
+      {% for form in job_form %}
+        <li class="job-form">
+          {{ form.as_p }}
+        </li>
+      {% endfor %}
+    </ul>
+    <button id="add-form" type="button">Add another job</button>
+    <input type="submit" value="Submit">
+  </form>
+{% endblock content %}
+{% block scripts %}
+<script>
+  let jobForm = document.querySelectorAll(".job-form")
+  let jobFormContainer = document.querySelector(".job-form-container")
+  let addButton = document.querySelector("#add-form")
+  let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
+
+  let formNum = jobForm.length-1
+
+  addButton.addEventListener('click', addJob)
+
+  function addJob(e) {
+    e.preventDefault()
+
+    let newForm = jobForm[0].cloneNode(true)
+    let formRegex = RegExp(`form-(\\d){1}-`,'g')
+    formNum++
+    newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
+    jobFormContainer.append(newForm)
+    totalForms.setAttribute("value", `${formNum+1}`)
+  }
+</script>
+{% endblock scripts %}
