@@ -1,16 +1,35 @@
 {% extends "forum/base_forum.html" %}
 {% block heading %}
-  Forum List
+  Thread List
 {% endblock heading %}
 {% block content %}
-  <div class="content__title">
-    <p>Which rabbit hole do you want to dive into?</p>
-  </div>
-  <div class="content__categories">
-    {% for category in categories %}
-      <div class="content__categories__category">
-        <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
-      </div>
-    {% endfor %}
+  <div class="content__threads">
+    <div class="content__threads__create">
+      <a href={% url "forum:thread_create" %}>Create a Thread</a>
+    </div>
+    <div class="content__threads__user">
+      <h2>Your Threads</h2>
+      {% for thread in threads %}
+        {% if thread.author.user == user %}
+          <a href={% url "forum:thread_detail" thread.pk %}>{{ thread.title }}</a>
+          <br>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <br>
+    <div class="content__threads__other">
+      <h2>Other Threads</h2>
+      {% for category in categories %}
+        <h3>{{ category.name }}</h3>
+        <h4>{{ category.description }}</h4>
+        {% for thread in threads %}
+          {% if thread.category.name == category.name and thread.author.user != user %}
+            <a href={% url "forum:thread_detail" thread.pk %}>{{ thread.title }}</a>
+            <br>
+          {% endif %}
+        {% endfor %}
+        <br>
+      {% endfor %}
+    </div>
   </div>
 {% endblock content %}

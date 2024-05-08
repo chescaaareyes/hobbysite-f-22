@@ -1,16 +1,60 @@
 {% extends "forum/base_forum.html" %}
 {% block heading %}
-  {{ category.name }}
+  {{ thread.title }}
 {% endblock heading %}
 {% block content %}
-  <div class="content__posts">
-    {% for post in posts %}
-      <div class="content__posts__post">
-        <h2 class="h2__space">{{ post.title }}</h2>
-        <p class="p__space">{{ post.category.name }}</p>
-        <p class="p__space">{{ post.entry }}</p>
-        <p>Posted on {{ post.created_on }}</p>
-      </div>
-    {% endfor %}
+  <div class="content__threads">
+    <div class="content__threads__user">
+      <h2>Author: {{ thread.author }}</h2>
+      <h3>Category: {{ thread.category.name }}</h3>
+      <p>{{ thread.entry }}</p>
+      {% if thread.image %}
+        <img src="{{ thread.image.url }}"
+             alt="Image for thread &quot;{{ thread.title }}&quot;">
+      {% endif %}
+      <p>Created on: {{ thread.created_on }}</p>
+      <p>Updated on: {{ thread.updated_on }}</p>
+      {% if thread.author.user == user %}
+        <a href={% url "forum:thread_update" pk=thread.pk %}>Update thread</a>
+      {% endif %}
+    </div>
+    <br>
+    <div class="content__threads__list">
+      <a href={% url "forum:thread_list" %}>Go back to threads list</a>
+    </div>
+    <br>
+    <div class="content__threads__comments">
+      <h2>Comments</h2>
+      {% for comment in comments %}
+        {% if comment.thread.pk == thread.pk %}
+          <p>{{ comment.entry }}</p>
+          <p>Author: {{ comment.author }}</p>
+          <p>Comment for Thread "{{ comment.thread.title }}"</p>
+          <p>Created on: {{ comment.created_on }}</p>
+          <p>Updated on: {{ comment.updated_on }}</p>
+          <br>
+        {% endif %}
+      {% endfor %}
+      {% if request.user.is_authenticated %}
+        <p>
+          <b>Post a Comment</b>
+        </p>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <input type="submit" value="Submit">
+        </form>
+      {% endif %}
+    </div>
+    <br>
+    <div class="content__threads__others">
+      <h2>See other threads from the {{ thread.category.name }} category</h2>
+      {% for other_thread in threads %}
+        {% if other_thread.category.name == thread.category.name and other_thread.title != thread.title %}
+          <a href={% url "forum:thread_detail" pk=other_thread.pk %}>{{ other_thread.title }}</a>
+          <br>
+        {% endif %}
+      {% endfor %}
+    </div>
   </div>
 {% endblock content %}
