@@ -48,13 +48,14 @@ def thread_create(request):
     author = Profile.objects.get(pk=request.user.pk)
     form = ThreadForm()
     if request.method == "POST":
-        form = ThreadForm(request.POST)
+        form = ThreadForm(request.POST, request.FILES)
         if form.is_valid():
             new_thread = Thread()
             new_thread.title = form.cleaned_data.get("title")
             new_thread.author = author
             new_thread.category = form.cleaned_data.get("category")
             new_thread.entry = form.cleaned_data.get("entry")
+            new_thread.image = form.cleaned_data.get("image")
             new_thread.save()
             return redirect("forum:thread_detail", pk=new_thread.pk)
     new_created_on = datetime.datetime.now()
