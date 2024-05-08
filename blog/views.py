@@ -26,7 +26,9 @@ def articleList(request):
 
 def articleDetail(request, pk):
     article = get_object_or_404(Article, pk=pk)
-    authorArticles = Article.objects.filter(author=article.author).exclude(pk=pk)[:2]
+    authorArticles = Article.objects.filter(author=article.author).exclude(pk=pk)[
+        :2
+    ]
     comments = Comment.objects.filter(article=article).order_by("-createdOn")
 
     if request.method == "POST":
@@ -34,7 +36,7 @@ def articleDetail(request, pk):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.article = article
-            comment.author = request.user
+            comment.author = Profile.objects.get(user=request.user)
             comment.save()
             return redirect("blog:article_detail", pk=pk)
     else:
