@@ -1,7 +1,8 @@
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-from django.contrib.auth.models import User
+
+from user_management.models import Profile
 
 
 class ArticleCategory(models.Model):
@@ -18,10 +19,7 @@ class ArticleCategory(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(
-        User, 
-        on_delete=models.SET_NULL, 
-        null=True, 
-        related_name="articles"
+        Profile, on_delete=models.SET_NULL, null=True, related_name="articles"
     )
     category = models.ForeignKey(
         ArticleCategory,
@@ -30,30 +28,26 @@ class Article(models.Model):
         related_name="articleCategory",
     )
     entry = models.TextField()
-    headerImage = models.ImageField(upload_to='header_images/', blank=True, null=True)
+    headerImage = models.ImageField(upload_to="header_images/", blank=True, null=True)
     createdOn = models.DateTimeField(auto_created=True)
     updatedOn = models.DateTimeField(auto_now=True)
-    
+
     class Meta:
         ordering = ["-createdOn"]
 
     def __str__(self):
         return self.title
-    
+
     def get_absolute_url(self):
         return reverse("article_detail", args=[str(self.id)])
 
+
 class Comment(models.Model):
     author = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="comments"
+        Profile, on_delete=models.SET_NULL, null=True, related_name="comments"
     )
     article = models.ForeignKey(
-        Article,
-        on_delete=models.CASCADE, 
-        related_name="comments"
+        Article, on_delete=models.CASCADE, related_name="comments"
     )
     entry = models.TextField()
     createdOn = models.DateTimeField(default=timezone.now)

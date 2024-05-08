@@ -1,43 +1,41 @@
 {% extends "blog/base_blog.html" %}
 {% block content %}
   <h2>Blog Articles</h2>
-
   <div>
     {% if user.is_authenticated %}
       <h3>Your Articles</h3>
       {% if userArticles %}
-      <ul>
-        {% for article in userArticles %}
-          <li>
-            <a href="{% url 'blog:article_detail' pk=article.pk %}">{{ article.title }}</a>
-          </li>
-        {% empty %}
-          <li>No articles found.</li>
-        {% endfor %}
-      </ul>
+        <ul>
+          {% for article in userArticles %}
+            <li>
+              <a href="{% url 'blog:article_detail' pk=article.pk %}">{{ article.title }}</a>
+            </li>
+          {% empty %}
+            <li>No articles found.</li>
+          {% endfor %}
+        </ul>
       {% else %}
         <p>No articles found.</p>
       {% endif %}
-  
       <h3>All Articles</h3>
       {% if otherArticles %}
-      <ul>
-        {% for article in otherArticles %}
-          <li>
-            <a href="{% url 'blog:article_detail' pk=article.pk %}">{{ article.title }}</a>
-          </li>
-        {% empty %}
-          <li>No articles found.</li>
-        {% endfor %}
-      </ul>
+        <ul>
+          {% for article in otherArticles %}
+            <li>
+              <a href="{% url 'blog:article_detail' pk=article.pk %}">{{ article.title }}</a>
+            </li>
+          {% empty %}
+            <li>No articles found.</li>
+          {% endfor %}
+        </ul>
       {% else %}
         <p>No articles found.</p>
       {% endif %}
     {% else %}
-      <p>You need to <a href="{% url 'login' %}">log in</a> to see articles.</p>
+      <p>
+        You need to <a href="{% url 'login' %}">log in</a> to see articles.
+      </p>
     {% endif %}
   </div>
-
   <a href="{% url 'blog:article_create' %}">Create New Article</a>
-
 {% endblock content %}
