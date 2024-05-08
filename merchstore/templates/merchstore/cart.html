@@ -1,0 +1,16 @@
+{% extends "merchstore/base_merchstore.html" %}
+{% block content %}
+{{ user }}'s Cart
+<ul>
+{% for cart in users_cart %}
+<li>
+    {{ cart.amount }}
+    {{ cart.product.name }}
+    <br>
+    Sold by {{ cart.product.owner }}
+    <br>
+    Status: {{ cart.status }}
+</li>
+{% endfor %}
+</ul>
+{% endblock %}

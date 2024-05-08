@@ -1,0 +1,18 @@
+{% extends "merchstore/base_merchstore.html" %}
+{% block content %}
+{{ user }}'s Transactions
+<ul>
+{% for transaction in users_transactions %}
+<li>
+    {{ transaction.amount }}
+    {{ transaction.product.name }}
+    <br>
+    Bought by {{ transaction.buyer }}
+    <br>
+    Status: {{ transaction.get_status }}
+    <br>
+    Transaction made on : {{ transaction.created_on }}
+</li>
+{% endfor %}
+</ul>
+{% endblock %}
