@@ -28,7 +28,7 @@ def thread_detail(request, pk):
         form = CommentForm(request.POST)
         if form.is_valid():
             new_comment = Comment()
-            author = Profile.objects.get(pk=request.user.pk)
+            author = Profile.objects.get(user=request.user)
             new_comment.author = author
             new_comment.thread = thread
             new_comment.entry = form.cleaned_data.get("entry")
@@ -45,7 +45,7 @@ def thread_detail(request, pk):
 
 @login_required
 def thread_create(request):
-    author = Profile.objects.get(pk=request.user.pk)
+    author = Profile.objects.get(user=request.user)
     form = ThreadForm()
     if request.method == "POST":
         form = ThreadForm(request.POST, request.FILES)
