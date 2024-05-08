@@ -17,12 +17,13 @@ def products_list(request):
         for_sale = Product.objects.exclude(owner = logged_user).filter(status = "On Sale")
         user_products = Product.objects.exclude(status = "On Sale").filter(owner = logged_user)
         other_products = Product.objects.exclude(status = "On Sale").exclude(owner = logged_user)
+        total_count = other_products.count() + user_products.count()
     else:
         logged_user = "Anonymous"
         for_sale = Product.objects.filter(status = "On Sale")
         other_products = Product.objects.exclude(status = "On Sale")
+        total_count = other_products.count()
     
-    total_count = other_products.count() + user_products.count()
         
     ctx = {
         "username" : logged_user,

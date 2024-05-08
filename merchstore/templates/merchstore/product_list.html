@@ -10,7 +10,7 @@
 
 {{ username }}
 
-{% if your_shop.count != 0%}
+{% if your_shop.count != 0 and user.is_authenticated %}
   <h1>CURRENTLY SELLING</h1>
   <ul>
     {% for product in your_shop %}
@@ -19,7 +19,7 @@
     </li>
     {% endfor %}
   </ul>
-  {% endif %}
+{% endif %}
 
   <h1>ALL PRODUCTS</h1>
   {% if for_sale.count != 0%}
