@@ -1,5 +1,4 @@
 from django.db import models
-from django.urls import reverse
 
 from user_management.models import Profile
 
@@ -7,12 +6,6 @@ from user_management.models import Profile
 class ThreadCategory(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-
-    def __str__(self):
-        return "{}".format(self.name)
-
-    def get_absolute_url(self):
-        return reverse("forum:thread_detail", args=[self.pk])
 
     class Meta:
         ordering = ["name"]
