@@ -74,11 +74,12 @@ def thread_update(request, pk):
     thread = Thread.objects.get(pk=pk)
     form = ThreadForm()
     if request.method == "POST":
-        form = ThreadForm(request.POST)
+        form = ThreadForm(request.POST, request.FILES)
         if form.is_valid():
             thread.title = form.cleaned_data.get("title")
             thread.category = form.cleaned_data.get("category")
             thread.entry = form.cleaned_data.get("entry")
+            thread.image = form.cleaned_data.get("image")
             thread.updated_on = datetime.datetime.now()
             thread.save()
             return redirect("forum:thread_detail", pk=thread.pk)

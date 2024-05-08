@@ -7,7 +7,7 @@
     <p>Author: {{ thread.author }}</p>
     <p>Created on: {{ thread.created_on }}</p>
     <p>Updated on: {{ updated_on }}</p>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}
       <input type="submit" value="Submit">
