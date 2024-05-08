@@ -21,6 +21,8 @@ def products_list(request):
         logged_user = "Anonymous"
         for_sale = Product.objects.filter(status = "On Sale")
         other_products = Product.objects.exclude(status = "On Sale")
+    
+    total_count = other_products.count() + user_products.count()
         
     ctx = {
         "username" : logged_user,
@@ -28,6 +30,7 @@ def products_list(request):
         "user_products": user_products,
         "others" : other_products,
         "for_sale" : for_sale,
+        "all_products_count" : total_count,
     }
     return render(request, "merchstore/product_list.html", ctx)
 
@@ -96,7 +99,7 @@ def product_add(request):
 def product_updateview(request, pk):
     product = Product.objects.get(pk=pk)
     user = request.user.profile
-    form = ProductForm()
+    form = ProductForm(initial = {"owner" : product.owner, "product_type" : product.product_type, "price" : product.price, "name" : product.name, "stock" : product.stock, "description" : product.description,})
     if request.method == "POST":
         form = ProductForm(request.POST)
         if form.is_valid:

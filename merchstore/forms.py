@@ -9,7 +9,7 @@ class TransactionForm(forms.ModelForm):
 
     class Meta:
         model = Transaction
-        fields = ['amount', 'created_on',]
+        fields = ['amount',]
 
     def clean_amount(self, *args, **kwargs):
         print(args)
