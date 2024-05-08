@@ -9,7 +9,7 @@
     <br>
     Sold by {{ cart.product.owner }}
     <br>
-    Status: {{ cart.status }}
+    Status: {{ cart.get_status }}
 </li>
 {% endfor %}
 </ul>
