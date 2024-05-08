@@ -8,6 +8,10 @@
       <h2>Author: {{ thread.author }}</h2>
       <h3>Category: {{ thread.category.name }}</h3>
       <p>{{ thread.entry }}</p>
+      {% if thread.image %}
+        <img src="{{ thread.image.url }}"
+             alt="Image for thread {{ thread.title }}">
+      {% endif %}
       <p>Created on: {{ thread.created_on }}</p>
       <p>Updated on: {{ thread.updated_on }}</p>
       {% if thread.author.user == user %}
