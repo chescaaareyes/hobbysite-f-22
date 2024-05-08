@@ -46,11 +46,17 @@ def commission_detail(request, pk):
         manpower_full += job_applications.filter(status="Accepted").count()
 
     manpower_open = manpower_required - manpower_full
-    
+
     job_form = None
-    
+
     if request.user.is_authenticated:
-        job_form = JobApplicationForm(initial={"job": Job.objects.get(pk=1), "applicant": Profile.objects.get(pk=request.user.pk), "status": "Pending"})
+        job_form = JobApplicationForm(
+            initial={
+                "job": Job.objects.get(pk=1),
+                "applicant": Profile.objects.get(pk=request.user.pk),
+                "status": "Pending",
+            }
+        )
         if request.method == "POST":
             job_form = JobApplicationForm(request.POST)
             if job_form.is_valid():
@@ -69,7 +75,7 @@ def commission_detail(request, pk):
         "jobs": jobs,
         "manpower_required": manpower_required,
         "manpower_open": manpower_open,
-        "job_form": job_form
+        "job_form": job_form,
     }
 
     return render(request, "commissions/commission_detail.html", ctx)
@@ -120,7 +126,14 @@ def commission_update(request, pk):
         current_status = "Full"
     else:
         current_status = commission.status
-    form = CommissionForm(initial={"title": commission.title, "description": commission.description, "status": current_status, "author": commission.author})
+    form = CommissionForm(
+        initial={
+            "title": commission.title,
+            "description": commission.description,
+            "status": current_status,
+            "author": commission.author,
+        }
+    )
     if request.method == "POST":
         form = CommissionForm(request.POST)
         if form.is_valid():

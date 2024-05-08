@@ -21,9 +21,7 @@ class JobForm(forms.ModelForm):
         fields = ["role", "manpower", "status"]
 
 
-JobFormSet = modelformset_factory(
-    Job, fields=("role", "manpower", "status"), extra=1
-)
+JobFormSet = modelformset_factory(Job, fields=("role", "manpower", "status"), extra=1)
 
 
 class JobApplicationForm(forms.ModelForm):
