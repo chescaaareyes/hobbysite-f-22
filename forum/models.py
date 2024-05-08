@@ -31,6 +31,7 @@ class Thread(models.Model):
         ThreadCategory, on_delete=models.SET_NULL, related_name="category", null=True
     )
     entry = models.TextField()
+    image = models.ImageField(upload_to="images/", null=True)
     created_on = models.DateTimeField(auto_now_add=True, editable=False)
     updated_on = models.DateTimeField(auto_now=True, editable=False)
 
