@@ -8,9 +8,8 @@ from user_management.models import Profile
 
 def article_list(request):
     articles = Article.objects.order_by("-created_on")
-    author = Profile.objects.get(user=request.user)
     user_articles = (
-        articles.filter(author=author) if request.user.is_authenticated else []
+        articles.filter(author=Profile.objects.get(user=request.user)) if request.user.is_authenticated else []
     )
     other_articles = (
         articles.exclude(author=Profile.objects.get(user=request.user))
