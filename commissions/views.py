@@ -19,9 +19,9 @@ def commission_list(request):
             When(status="Discontinued", then=Value(3)),
         )
     ).order_by("custom_order")
-    created_commissions = Commission.objects.filter(author__user__pk=request.user.pk)
+    created_commissions = Commission.objects.filter(author__user=request.user)
     applied_commissions = Commission.objects.filter(
-        job__job_application__applicant__user__pk=request.user.pk
+        job__job_application__applicant__user=request.user
     ).distinct()
     ctx = {
         "all_commissions": all_commissions,
@@ -54,7 +54,7 @@ def commission_detail(request, pk):
         application_form = JobApplicationForm(
             initial={
                 "job": Job.objects.get(pk=1),
-                "applicant": Profile.objects.get(pk=request.user.pk),
+                "applicant": Profile.objects.get(user=request.user),
                 "status": "Pending",
             }
         )
@@ -64,7 +64,7 @@ def commission_detail(request, pk):
                 new_application = JobApplication()
                 job_pk = int(request.POST.get("job-pk"))
                 new_application.job = Job.objects.get(pk=job_pk)
-                new_application.applicant = Profile.objects.get(pk=request.user.pk)
+                new_application.applicant = Profile.objects.get(user=request.user)
                 new_application.status = "Pending"
                 new_application.save()
                 return redirect("commissions:commission_detail", pk=pk)
@@ -82,7 +82,7 @@ def commission_detail(request, pk):
 
 @login_required
 def commission_create(request):
-    author = Profile.objects.get(pk=request.user.pk)
+    author = Profile.objects.get(user=request.user)
     commission_form = CommissionForm(initial={"author": author})
     job_form = JobFormSet()
     if request.method == "POST":
