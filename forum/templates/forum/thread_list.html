@@ -10,34 +10,51 @@
 {% endblock heading %}
 {% block content %}
   <div class="content">
+    <div class="content__create">
+      <a href={% url "forum:thread_create" %}>Create a Thread</a>
+    </div>
     <div class="content__threads">
-      <div class="content__threads__create">
-        <a href={% url "forum:thread_create" %}>Create a Thread</a>
+      <div class="content__user">
+        <div class="content__user__heading">
+          <h2>Your Threads</h2>
+        </div>
+        <div class="content__user__threads">
+          <div class="content__threads__container">
+            {% for thread in user_threads %}
+              <div class="content__threads__title">
+                <a href={% url "forum:thread_detail" thread.pk %}>
+                  <h3>{{ thread.title }}</h3>
+                </a>
+              </div>
+            {% empty %}
+              <p class="content__threads__none">You don't have any threads so far, create one!</p>
+            {% endfor %}
+          </div>
+        </div>
       </div>
-      <div class="content__threads__user">
-        <h2>Your Threads</h2>
-        {% for thread in user_threads %}
-          {% if thread.author.user == user %}
-            <a href={% url "forum:thread_detail" thread.pk %}>{{ thread.title }}</a>
-          {% endif %}
-        {% empty %}
-          <p>You don't have any threads so far, create one!</p>
-        {% endfor %}
-      </div>
-      <br>
-      <div class="content__threads__other">
-        <h2>Other Threads</h2>
-        {% for category in categories %}
-          <h3>{{ category.name }}</h3>
-          <h4>{{ category.description }}</h4>
-          {% for thread in other_threads %}
-            <a href={% url "forum:thread_detail" thread.pk %}>{{ thread.title }}</a>
-            <br>
-          {% empty %}
-            <p>There's no threads in this category so far!</p>
-          {% endfor %}
-          <br>
-        {% endfor %}
+      <div class="content__other">
+        <div class="content__other__heading">
+          <h2>Other Threads</h2>
+        </div>
+        <div class="content__other__threads">
+          <div class="content__threads__container">
+            {% for category in categories %}
+              <div class="content__threads__category">
+                <div class="content__threads__heading">
+                  <h3>{{ category.name }}</h3>
+                  <h4>{{ category.description }}</h4>
+                </div>
+                {% for thread in other_threads %}
+                  <div class="content__threads__thread">
+                    <a href={% url "forum:thread_detail" thread.pk %}>{{ thread.title }}</a>
+                  </div>
+                {% empty %}
+                  <p class="content__threads__none">There's no threads in this category so far!</p>
+                {% endfor %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
       </div>
     </div>
   </div>
