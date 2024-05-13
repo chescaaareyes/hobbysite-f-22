@@ -24,9 +24,9 @@ def thread_list(request):
 
 
 def thread_detail(request, pk):
-    threads = Thread.objects.all()
+    threads = Thread.objects.exclude(pk=pk)
     thread = Thread.objects.get(pk=pk)
-    comments = Comment.objects.all()
+    comments = Comment.objects.filter(thread=Thread.objects.get(pk=pk))
     form = CommentForm()
     if request.method == "POST":
         form = CommentForm(request.POST)
