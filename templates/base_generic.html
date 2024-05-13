@@ -1,8 +1,16 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static "css/main.css" %}" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+          rel="stylesheet">
+    {% block head %}
+    {% endblock head %}
     <title>
       {% block title %}
       {% endblock title %}
@@ -19,24 +27,20 @@
         <a href="{% url 'forum:thread_list' %}">Forum</a>
         <a href="{% url 'commissions:commission_list' %}">Commission</a>
         {% if user.is_authenticated %}
-        <a href="{% url 'user_management:profile' %}">Profile</a>
+          <a href="{% url 'user_management:profile' %}">Profile</a>
         {% endif %}
-        <div>
-          {% if user.is_authenticated %}
+        {% if user.is_authenticated %}
           <form method="POST" action="{% url 'logout' %}">
             {% csrf_token %}
             <button type="submit">Logout</button>
           </form>
-          {% else %}
-          <a href="{% url 'login' %}">Login</a>
-          {% endif %}
-        </div>
+        {% else %}
+          <a class="nav__login" href="{% url 'login' %}">Login</a>
+        {% endif %}
       </nav>
     {% endblock nav %}
-    <h1>
-      {% block heading %}
-      {% endblock heading %}
-    </h1>
+    {% block heading %}
+    {% endblock heading %}
     {% block content %}
     {% endblock content %}
     {% block scripts %}

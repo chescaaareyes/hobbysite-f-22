@@ -11,10 +11,14 @@ from .models import Comment, Thread, ThreadCategory
 
 def thread_list(request):
     categories = ThreadCategory.objects.all()
-    threads = Thread.objects.all()
+    user_threads = Thread.objects.filter(author=Profile.objects.get(user=request.user))
+    other_threads = Thread.objects.exclude(
+        author=Profile.objects.get(user=request.user)
+    )
     ctx = {
         "categories": categories,
-        "threads": threads,
+        "user_threads": user_threads,
+        "other_threads": other_threads,
     }
     return render(request, "forum/thread_list.html", ctx)
 

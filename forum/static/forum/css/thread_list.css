@@ -1,0 +1,16 @@
+header {
+  display: flex;
+  justify-content: center;
+}
+
+header h1 {
+  margin-bottom: 0.4em;
+  background-color: #b95acc;
+  padding: 0.4em;
+  border-radius: 20px;
+}
+
+.content__threads__create {
+  display: flex;
+  justify-content: center;
+}

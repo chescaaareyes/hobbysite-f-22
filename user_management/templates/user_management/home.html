@@ -2,20 +2,22 @@
 {% block nav %}
 {% endblock nav %}
 {% block content %}
-  <a href="{% url "merchstore:product_list" %}">Merchandise Store</a>
-  <a href="{% url "wiki:article_list" %}">Wiki</a>
-  <a href="{% url "blog:article_list" %}">Blog</a>
-  <a href="{% url "forum:thread_list" %}">Forum</a>
-  <a href="{% url "commissions:commission_list" %}">Commission</a>
-  {% if user.is_authenticated %}
-        <a href="{% url 'user_management:profile' %}">Profile</a>
-        {% endif %}
-  {% if user.is_authenticated %}
-    <form method="POST" action="{% url 'logout' %}">
-      {% csrf_token %}
-      <button type="submit">Logout</button>
-    </form>
-  {% else %}
-    <a href="{% url "login" %}">Login</a>
-  {% endif %}
+  <nav>
+    <a href="{% url "merchstore:product_list" %}">Merchandise Store</a>
+    <a href="{% url "wiki:article_list" %}">Wiki</a>
+    <a href="{% url "blog:article_list" %}">Blog</a>
+    <a href="{% url "forum:thread_list" %}">Forum</a>
+    <a href="{% url "commissions:commission_list" %}">Commission</a>
+    {% if user.is_authenticated %}
+      <a href="{% url 'user_management:profile' %}">Profile</a>
+    {% endif %}
+    {% if user.is_authenticated %}
+      <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+      </form>
+    {% else %}
+      <a class="nav__login" href="{% url "login" %}">Login</a>
+    {% endif %}
+  </nav>
 {% endblock content %}
