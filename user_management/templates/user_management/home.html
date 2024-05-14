@@ -1,26 +1,9 @@
 {% extends "base_generic.html" %}
 {% load static %}
-{% comment %} {% block nav %}
-{% endblock nav %} {% endcomment %}
+{% block head %}
+  <link rel="stylesheet" href="{% static "user_management/css/home.css" %}" type=text/css>
+{% endblock head %}
 {% block content %}
-  {% comment %} <nav>
-    <a href="{% url "merchstore:product_list" %}">Merchandise Store</a>
-    <a href="{% url "wiki:article_list" %}">Wiki</a>
-    <a href="{% url "blog:article_list" %}">Blog</a>
-    <a href="{% url "forum:thread_list" %}">Forum</a>
-    <a href="{% url "commissions:commission_list" %}">Commission</a>
-    {% if user.is_authenticated %}
-      <a href="{% url 'user_management:profile' %}">Profile</a>
-    {% endif %}
-    {% if user.is_authenticated %}
-      <form method="POST" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-      </form>
-    {% else %}
-      <a class="nav__login" href="{% url "login" %}">Login</a>
-    {% endif %}
-  </nav> {% endcomment %}
   <div class="home__content">
     <div class="home__text">
       <p>All your hobbies in one place</p>
@@ -29,6 +12,7 @@
         hobbylobby gathers different kinds of apps together, allowing users to cater to all their hobbies using only one website.
       </p>
     </div>
-    <img src="{% static 'user_management/static/laptop.svg' %}" class="home__image" />
+    <img src="{% static 'user_management/images/laptop.svg' %}"
+         class="home__image" />
   </div>
 {% endblock content %}
