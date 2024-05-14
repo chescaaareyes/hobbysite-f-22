@@ -1,8 +1,9 @@
 {% extends "base_generic.html" %}
-{% block nav %}
-{% endblock nav %}
+{% load static %}
+{% comment %} {% block nav %}
+{% endblock nav %} {% endcomment %}
 {% block content %}
-  <nav>
+  {% comment %} <nav>
     <a href="{% url "merchstore:product_list" %}">Merchandise Store</a>
     <a href="{% url "wiki:article_list" %}">Wiki</a>
     <a href="{% url "blog:article_list" %}">Blog</a>
@@ -19,5 +20,15 @@
     {% else %}
       <a class="nav__login" href="{% url "login" %}">Login</a>
     {% endif %}
-  </nav>
+  </nav> {% endcomment %}
+  <div class="home__content">
+    <div class="home__text">
+      <p>All your hobbies in one place</p>
+      <p>Never have to worry about managing your hobbies ever again!</p>
+      <p>
+        hobbylobby gathers different kinds of apps together, allowing users to cater to all their hobbies using only one website.
+      </p>
+    </div>
+    <img src="{% static 'user_management/static/laptop.svg' %}" class="home__image" />
+  </div>
 {% endblock content %}

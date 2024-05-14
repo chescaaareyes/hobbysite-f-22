@@ -7,14 +7,21 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Inter", sans-serif;
-  color: #fff;
+  color: #ffffff;
   background-color: #3d333f;
 }
 
 a {
-  color: #fff;
+  color: #ED91FF;
   text-decoration: none;
 }
+
+a:hover {
+  border-bottom: 2px solid #ED91FF !important;
+  transition: all 0.2s;
+}
+
+/* nav bar (base_generic) */
 
 nav {
   display: flex;
@@ -23,27 +30,34 @@ nav {
   background-color: #b95acc;
   width: 100%;
   min-height: 3rem;
+  color: #ffffff;
+  padding: 0 1rem;
+}
+
+.nav__logo {
+  color: #ffffff;
+  margin: 0;
+  font-size: 22px;
+  font-weight: bold;
 }
 
 nav a {
+  color: #ffffff;
   margin-left: 1rem;
 }
 
 .nav__login {
   margin-left: auto;
-  margin-right: 2rem;
   font-weight: 600;
 }
 
-a:hover {
-  border-bottom: 2px solid #fff !important;
-}
-
+/* logout form */
 nav form {
   margin-left: auto;
   margin-right: 2rem;
 }
 
+/* logout button */
 nav button {
   font-size: 0.875rem;
   font-weight: 600;
@@ -54,4 +68,45 @@ nav button {
   padding-right: 0.6em;
   border-radius: 5px;
   cursor: pointer;
+  border: none
+}
+
+nav button:hover {
+  opacity: 0.8;
+  transition: all 0.2s;
+}
+
+/* home page */
+
+.home__content {
+  width: 80%;
+  height: 92vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+  margin: 0 auto;
+  padding: 0rem 0 0 0;
+}
+
+.home__text {
+  flex: 1;
+}
+
+.home__text p {
+  font-size: 20px;
+  margin: 0 0 1.5rem 0;
+}
+
+.home__text p:first-child {
+  font-size: 60px;
+  font-weight: bold;
+  margin: 0 0 2.5rem 0;
+}
+
+.home__image {
+  flex: 1;
+  width: 400px;
+  height: 400px;
 }

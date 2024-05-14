@@ -21,6 +21,7 @@
   <body>
     {% block nav %}
       <nav>
+        <a href="{% url 'user_management:home' %}" class="nav__logo">hobbylobby</a>
         <a href="{% url 'merchstore:product_list' %}">Merchandise Store</a>
         <a href="{% url 'wiki:article_list' %}">Wiki</a>
         <a href="{% url 'blog:article_list' %}">Blog</a>
