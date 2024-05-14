@@ -10,10 +10,17 @@ from .models import Comment, Thread, ThreadCategory
 
 
 def thread_list(request):
+    articles = Thread.objects.all()
     categories = ThreadCategory.objects.all()
-    user_threads = Thread.objects.filter(author=Profile.objects.get(user=request.user))
-    other_threads = Thread.objects.exclude(
-        author=Profile.objects.get(user=request.user)
+    user_threads = (
+        Thread.objects.filter(author=Profile.objects.get(user=request.user))
+        if request.user.is_authenticated
+        else []
+    )
+    other_threads = (
+        Thread.objects.exclude(author=Profile.objects.get(user=request.user))
+        if request.user.is_authenticated
+        else articles
     )
     ctx = {
         "categories": categories,
