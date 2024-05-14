@@ -19,10 +19,14 @@ def commission_list(request):
             When(status="Discontinued", then=Value(3)),
         )
     ).order_by("custom_order")
-    created_commissions = Commission.objects.filter(author__user=request.user)
-    applied_commissions = Commission.objects.filter(
-        job__job_application__applicant__user=request.user
-    ).distinct()
+    if request.user.is_authenticated:
+        created_commissions = Commission.objects.filter(author__user=request.user)
+        applied_commissions = Commission.objects.filter(
+            job__job_application__applicant__user=request.user
+        ).distinct()
+    else:
+        created_commissions = None
+        applied_commissions = None
     ctx = {
         "all_commissions": all_commissions,
         "created_commissions": created_commissions,
