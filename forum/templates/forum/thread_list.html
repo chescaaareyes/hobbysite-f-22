@@ -45,9 +45,11 @@
                   <h4>{{ category.description }}</h4>
                 </div>
                 {% for thread in other_threads %}
-                  <div class="content__threads__thread">
-                    <a href={% url "forum:thread_detail" thread.pk %}>{{ thread.title }}</a>
-                  </div>
+                  {% if thread.category.pk == category.pk %}
+                    <div class="content__threads__thread">
+                      <a href={% url "forum:thread_detail" thread.pk %}>{{ thread.title }}</a>
+                    </div>
+                  {% endif %}
                 {% empty %}
                   <p class="content__threads__none">There's no threads in this category so far!</p>
                 {% endfor %}

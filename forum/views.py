@@ -83,7 +83,13 @@ def thread_create(request):
 @login_required
 def thread_update(request, pk):
     thread = Thread.objects.get(pk=pk)
-    form = ThreadForm()
+    form = ThreadForm(
+        initial={
+            "title": thread.title,
+            "category": thread.category,
+            "entry": thread.entry,
+        }
+    )
     if request.method == "POST":
         form = ThreadForm(request.POST, request.FILES)
         if form.is_valid():
