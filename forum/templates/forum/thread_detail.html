@@ -73,10 +73,7 @@
     <div class="content__thread__others">
       <h2>See other threads from the {{ thread.category.name }} category</h2>
       {% for other_thread in threads %}
-        {% if other_thread.category.name == thread.category.name and other_thread.title != thread.title %}
-          <a href={% url "forum:thread_detail" pk=other_thread.pk %}>{{ other_thread.title }}</a>
-          <br>
-        {% endif %}
+        <a href={% url "forum:thread_detail" pk=other_thread.pk %}>{{ other_thread.title }}</a>
       {% endfor %}
     </div>
   </div>
