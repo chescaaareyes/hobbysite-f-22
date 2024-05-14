@@ -1,0 +1,32 @@
+.home__content {
+  width: 80%;
+  height: 92vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+  margin: 0 auto;
+  padding: 0rem 0 0 0;
+}
+
+.home__text {
+  flex: 1;
+}
+
+.home__text p {
+  font-size: 20px;
+  margin: 0 0 1.5rem 0;
+}
+
+.home__text p:first-child {
+  font-size: 60px;
+  font-weight: bold;
+  margin: 0 0 2.5rem 0;
+}
+
+.home__image {
+  flex: 1;
+  width: 400px;
+  height: 400px;
+}
